@@ -21,6 +21,7 @@ class TestCommand extends Command
 	public function handle(): void
 	{
 		try {
+
 		} catch (Throwable $e) {
 			echo $e->getMessage();
 		}

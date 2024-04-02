@@ -2,21 +2,20 @@
 
 namespace Database\Seeders;
 
+use App\Models\Delicacy;
 use Illuminate\Database\Seeder;
 
 /**
- * Class DatabaseSeeder
+ * Class DelicacySeeder
  * @package Database\Seeders
  */
-class DatabaseSeeder extends Seeder
+class DelicacySeeder extends Seeder
 {
 	/*** Seed the application's database. */
 	public function run(): void
 	{
-		$this->call([
-			CoffeeSeeder::class,
-			DelicacySeeder::class,
-			SpiceSeeder::class,
-		]);
+		Delicacy::factory()
+			->count(20)
+			->create();
 	}
 }

@@ -1,4 +1,8 @@
-<!DOCTYPE>
+@php
+	use Illuminate\Support\Facades\Auth;
+@endphp
+
+		<!DOCTYPE>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
 	<meta charset="utf-8">
@@ -27,6 +31,7 @@
 	</div>
 </body>
 </html>
+@include('_scripts.main')
 <script>
 	$(document).ready(function () {
 		"use strict";
@@ -35,20 +40,44 @@
 			$navbar = $("#js-navbar"),
 			$console = $("#js-console"),
 			$content = $console.find(".js-content"),
-			$coffeeTab = $navbar.find(".js-coffees-tab")
+			$navTabs = $navbar.find(".js-tab")
 		;
 
-		$coffeeTab.on("click", function () {
-			$.ajax({
-				type:    "POST",
-				url:     '{{ route('coffees') }}',
-				data:    {
-					_token: "{{ csrf_token() }}"
-				},
-				success: function (response) {
-					$content.html(response.view);
-				}
-			});
+		$navTabs.on("click", function () {
+			changeMenu($(this).attr("data-route"));
 		});
+
+		@if( Auth::user() === NULL )
+		$(".js-register-tab").on("click", function () {
+			sendRequest(
+				'{{ route('register') }}',
+				{},
+				(response) => {
+					$content.html(response.view);
+				},
+				"GET"
+			);
+		});
+		$(".js-login-tab").on("click", function () {
+			sendRequest(
+				'{{ route('login') }}',
+				{},
+				(response) => {
+					$content.html(response.view);
+				},
+				"GET"
+			);
+		});
+		@else
+		$(".js-logout-tab").on("click", function () {
+			sendRequest(
+				'{{ route('logout') }}',
+				{},
+				() => {
+					location.reload();
+				}
+			);
+		});
+		@endif
 	});
 </script>

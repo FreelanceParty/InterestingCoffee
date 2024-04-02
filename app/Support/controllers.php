@@ -3,6 +3,7 @@
 use App\ModelControllers\CoffeeController;
 use App\ModelControllers\DelicacyController;
 use App\ModelControllers\SpiceController;
+use App\ModelControllers\UserController;
 
 if ( ! function_exists('coffeeController')) {
 	/*** @return CoffeeController */
@@ -23,5 +24,12 @@ if ( ! function_exists('delicacyController')) {
 	function delicacyController(): DelicacyController
 	{
 		return app('DelicacyController');
+	}
+}
+if ( ! function_exists('userController')) {
+	/*** @return UserController */
+	function userController(): UserController
+	{
+		return app('UserController');
 	}
 }

@@ -7,3 +7,4 @@ Route::get('/', static function() {
 	return view('welcome');
 });
 Route::post('/coffees', [ContentController::class, 'getCoffeeView'])->name('coffees');
+require __DIR__ . '/auth.php';

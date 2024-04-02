@@ -4,6 +4,7 @@ namespace App\ModelControllers\Repositories;
 
 use App\Exceptions\CoffeeNotFoundException;
 use App\Models\Coffee;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class CoffeeRepository
@@ -37,5 +38,11 @@ class CoffeeRepository
 			throw new CoffeeNotFoundException;
 		}
 		return $coffee;
+	}
+
+	/*** @return Collection */
+	public function getAll(): Collection
+	{
+		return Coffee::all();
 	}
 }

@@ -5,6 +5,7 @@ namespace App\ModelControllers;
 use App\Exceptions\CoffeeNotFoundException;
 use App\ModelControllers\Repositories\CoffeeRepository;
 use App\Models\Coffee;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class CoffeeController
@@ -39,5 +40,11 @@ class CoffeeController
 	public function findByTitle(string $title): Coffee
 	{
 		return $this->repo->findByTitle($title);
+	}
+
+	/*** @return Collection */
+	public function getAll(): Collection
+	{
+		return $this->repo->getAll();
 	}
 }

@@ -8,11 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Spice
- * @property int    $id
- * @property string $title
- * @property float  $price
- * @property Carbon $created_at
- * @property Carbon $updated_at
+ * @property int         $id
+ * @property string      $title
+ * @property float       $price
+ * @property string|NULL $image
+ * @property Carbon      $created_at
+ * @property Carbon      $updated_at
  * @method static where($column, $operator, $value)
  * @package App\Models
  */
@@ -54,6 +55,21 @@ class Spice extends Model
 	public function setPrice(float $price): void
 	{
 		$this->price = $price;
+	}
+
+	/*** @return string|NULL */
+	public function getImage(): ?string
+	{
+		return $this->image;
+	}
+
+	/**
+	 * @param string|NULL $image
+	 * @return void
+	 */
+	public function setImage(?string $image): void
+	{
+		$this->image = $image;
 	}
 
 	/*** @return Carbon */

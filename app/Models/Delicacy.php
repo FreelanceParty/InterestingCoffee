@@ -8,11 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Delicacy
- * @property int    $id
- * @property string $title
- * @property float  $price
- * @property Carbon $created_at
- * @property Carbon $updated_at
+ * @property int         $id
+ * @property string      $title
+ * @property float       $price
+ * @property string|NULL $Image
+ * @property Carbon      $created_at
+ * @property Carbon      $updated_at
  * @method static where($column, $operator, $value)
  * @package App\Models
  */
@@ -45,6 +46,21 @@ class Delicacy extends Model
 	public function getPrice(): float
 	{
 		return $this->price;
+	}
+
+	/*** @return string|NULL */
+	public function getImage(): ?string
+	{
+		return $this->Image;
+	}
+
+	/**
+	 * @param string|NULL $Image
+	 * @return void
+	 */
+	public function setImage(?string $Image): void
+	{
+		$this->Image = $Image;
 	}
 
 	/**

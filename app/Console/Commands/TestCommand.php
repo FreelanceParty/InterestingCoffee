@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Coffee;
 use Illuminate\Console\Command;
 use Throwable;
 
@@ -21,7 +22,9 @@ class TestCommand extends Command
 	public function handle(): void
 	{
 		try {
-
+			$coffee = Coffee::all()->first();
+			$coffee->setImage((file_get_contents(public_path('images/cookie-default-img.png'))));
+			$coffee->save();
 		} catch (Throwable $e) {
 			echo $e->getMessage();
 		}

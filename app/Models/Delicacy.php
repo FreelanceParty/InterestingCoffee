@@ -2,30 +2,19 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
+use App\Models\Abstracts\AModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Delicacy
- * @property int         $id
  * @property string      $title
  * @property float       $price
  * @property string|NULL $Image
- * @property Carbon      $created_at
- * @property Carbon      $updated_at
- * @method static where($column, $operator, $value)
  * @package App\Models
  */
-class Delicacy extends Model
+class Delicacy extends AModel
 {
 	use HasFactory;
-
-	/*** @return int */
-	public function getId(): int
-	{
-		return $this->id;
-	}
 
 	/*** @return string */
 	public function getTitle(): string
@@ -70,17 +59,5 @@ class Delicacy extends Model
 	public function setPrice(float $price): void
 	{
 		$this->price = $price;
-	}
-
-	/***@return Carbon */
-	public function getCreatedAt(): Carbon
-	{
-		return $this->created_at;
-	}
-
-	/*** @return Carbon */
-	public function getUpdatedAt(): Carbon
-	{
-		return $this->updated_at;
 	}
 }

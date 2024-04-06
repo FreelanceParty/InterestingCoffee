@@ -6,7 +6,7 @@
 	/*** @var User $authUser */
 	$authUser = Auth::user();
 @endphp
-<div class="js-feedback-field flex flex-col p-4 rounded-lg border-2 border-gray-300 gap-2">
+<div class="js-feedback-field flex flex-col p-4 rounded-lg gap-2">
 	<textarea placeholder="Напишіть відгук :)" class="rounded-lg border-2 border-gray-300 p-1"></textarea>
 	<div class="flex justify-between">
 		@if( $authUser === NULL )

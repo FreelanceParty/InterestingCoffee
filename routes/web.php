@@ -6,7 +6,9 @@ use App\Http\Controllers\PopupController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', static function() {
-	return view('welcome');
+	return view('welcome', [
+		'feedbacks' => feedbackController()->getAll()->take(4),
+	]);
 });
 Route::group(['prefix' => '/action'], static function() {
 	Route::post('/send_feedback', [ActionController::class, 'sendFeedback'])->name('action.send-feedback');
@@ -21,6 +23,7 @@ Route::group(['prefix' => '/content'], static function() {
 	Route::post('/delicacies', [ContentController::class, 'getDelicaciesView'])->name('content.delicacies');
 	Route::post('/spices', [ContentController::class, 'getSpicesView'])->name('content.spices');
 	Route::post('/home', [ContentController::class, 'getHomeView'])->name('content.home');
+	Route::post('/feedbacks', [ContentController::class, 'getFeedbacksView'])->name('content.feedbacks');
 	Route::post('/statistics', [ContentController::class, 'getStatisticsView'])->name('content.statistics');
 });
 Route::group(['prefix' => '/popup'], static function() {

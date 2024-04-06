@@ -31,11 +31,11 @@
 			<script>
 				$(document).ready(function () {
 					const
-						$navBar = $('#js-navbar'),
-						$addProductTab = $navBar.find('.js-add-product')
+						$navBar = $("#js-navbar"),
+						$addProductTab = $navBar.find(".js-add-product")
 					;
-					$addProductTab.on('click', function () {
-						popup.show($(this).data('route'));
+					$addProductTab.on("click", function () {
+						popup.show($(this).data("route"));
 					});
 				});
 			</script>

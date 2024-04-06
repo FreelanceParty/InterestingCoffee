@@ -57,7 +57,9 @@ class ContentController extends Controller
 	public function getHomeView(): JsonResponse
 	{
 		return response()->json([
-			'view' => view('content.home')->render(),
+			'view' => view('content.home', [
+				'feedbacks' => feedbackController()->getAll()->take(4),
+			])->render(),
 		]);
 	}
 
@@ -69,6 +71,19 @@ class ContentController extends Controller
 	{
 		return response()->json([
 			'view' => view('content.statistics')->render(),
+		]);
+	}
+
+	/***
+	 * @return JsonResponse
+	 * @throws Throwable
+	 */
+	public function getFeedbacksView(): JsonResponse
+	{
+		return response()->json([
+			'view' => view('content.feedbacks', [
+				'feedbacks' => feedbackController()->getAll(),
+			])->render(),
 		]);
 	}
 }

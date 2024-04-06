@@ -1,0 +1,1 @@
+<iframe class="rounded-lg w-full h-full border-gray-300 border" src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Europe%2FKiev&bgcolor=%234285F4&showPrint=0&showCalendars=0&src=ODU5ZGExMmY3ZDkxY2U1NGI5NDI5ODM2YWI5NjFjZGU4MjUzMTQ4MDFkZDhiYTQ5ZmYzZmU1ZjU2NjZkYWI3MkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%237CB342" frameborder="0" scrolling="no"></iframe>

@@ -15,6 +15,7 @@
 	<script src="https://kit.fontawesome.com/7966ef3cd7.js" crossorigin="anonymous"></script>
 </head>
 <body>
+	@include('popup._common')
 	<div id="js-console" class="flex h-screen">
 		@include('navigation')
 		<div class="flex flex-col justify-between w-full">
@@ -33,8 +34,6 @@
 
 		const
 			$navbar = $("#js-navbar"),
-			$console = $("#js-console"),
-			$content = $console.find(".js-content"),
 			$navTabs = $navbar.find(".js-tab")
 		;
 
@@ -44,24 +43,10 @@
 
 		@if( Auth::user() === NULL )
 		$(".js-register-tab").on("click", function () {
-			sendRequest(
-				'{{ route('register') }}',
-				{},
-				(response) => {
-					$content.html(response.view);
-				},
-				"GET"
-			);
+			popup.show("{{ route('popup.register') }}");
 		});
 		$(".js-login-tab").on("click", function () {
-			sendRequest(
-				'{{ route('login') }}',
-				{},
-				(response) => {
-					$content.html(response.view);
-				},
-				"GET"
-			);
+			popup.show("{{ route('popup.login') }}");
 		});
 		@else
 		$(".js-logout-tab").on("click", function () {

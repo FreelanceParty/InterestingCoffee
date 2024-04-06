@@ -1,3 +1,7 @@
+@php
+	use App\ValuesObject\InfoType;
+@endphp
+
 <script>
 	"use strict";
 
@@ -26,4 +30,45 @@
 			}
 		);
 	}
+
+	const popup = (function () {
+		const
+			$popup = $("#popup"),
+			$popupHeaderText = $popup.find(".js-popup-header-text"),
+			$popupContent = $popup.find(".js-popup-content"),
+			$popupClose = $popup.find(".js-popup-close")
+		;
+
+		$popupClose.on("click", hidePopup);
+
+		function hidePopup() {
+			$popup.addClass("hidden");
+		}
+
+		return {
+			show:     function (route, data = {}) {
+				sendRequest(
+					route,
+					data,
+					(response) => {
+						$popup.removeClass("hidden");
+						$popupHeaderText.text(response.headerText ?? "");
+						$popupContent.html(response.html);
+					}
+				);
+			},
+			showInfo: function (text, infoType = '{{ InfoType::INFO }}') {
+				this.show(
+					'{{ route('popup.info') }}',
+					{
+						text:      text,
+						info_type: infoType
+					}
+				);
+			},
+			hide:     function () {
+				hidePopup();
+			}
+		};
+	}());
 </script>

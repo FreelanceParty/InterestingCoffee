@@ -10,16 +10,27 @@ Route::get('/', static function() {
 });
 Route::group(['prefix' => '/action'], static function() {
 	Route::post('/send_feedback', [ActionController::class, 'sendFeedback'])->name('action.send-feedback');
+	Route::group(['prefix' => '/product'], static function() {
+		//		Route::post('/create', [PopupController::class, 'getInfoPopup'])->name('popup.product.create'); TODO:
+		//		Route::post('/edit', [PopupController::class, 'getEditProductPopup'])->name('popup.product.edit');
+		Route::post('/delete', [ActionController::class, 'deleteProduct'])->name('action.product.delete');
+	});
 });
 Route::group(['prefix' => '/content'], static function() {
 	Route::post('/coffees', [ContentController::class, 'getCoffeesView'])->name('content.coffees');
 	Route::post('/delicacies', [ContentController::class, 'getDelicaciesView'])->name('content.delicacies');
 	Route::post('/spices', [ContentController::class, 'getSpicesView'])->name('content.spices');
 	Route::post('/home', [ContentController::class, 'getHomeView'])->name('content.home');
+	Route::post('/statistics', [ContentController::class, 'getStatisticsView'])->name('content.statistics');
 });
 Route::group(['prefix' => '/popup'], static function() {
-	Route::post('/info', [PopupController::class, 'getInfoPopup'])->name('popup.info');
+	Route::post('/info', [PopupController::class, 'getInfoPopup'])->middleware('isAdmin')->name('popup.info');
 	Route::post('/login', [PopupController::class, 'getLoginPopup'])->name('popup.login');
 	Route::post('/register', [PopupController::class, 'getRegisterPopup'])->name('popup.register');
+	Route::group(['prefix' => '/product'], static function() {
+		//		Route::post('/create', [PopupController::class, 'getInfoPopup'])->name('popup.product.create'); TODO:
+		Route::post('/edit', [PopupController::class, 'getEditProductPopup'])->name('popup.product.edit');
+		Route::post('/delete', [PopupController::class, 'getDeleteProductPopup'])->name('popup.product.delete');
+	});
 });
 require __DIR__ . '/auth.php';

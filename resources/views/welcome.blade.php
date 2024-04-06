@@ -1,5 +1,8 @@
 @php
 	use Illuminate\Support\Facades\Auth;
+	use App\Models\User;
+	/*** @var User $authUser */
+	$authUser = Auth::user();
 @endphp
 
 		<!DOCTYPE>
@@ -20,7 +23,7 @@
 		@include('navigation')
 		<div class="flex flex-col justify-between w-full">
 			<div class="js-content flex flex-col p-4 overflow-y-auto gap-4 h-full">
-				@include('tabs.home')
+				@include('content.home')
 			</div>
 			@include('footer')
 		</div>
@@ -41,7 +44,7 @@
 			changeMenu($(this).attr("data-route"));
 		});
 
-		@if( Auth::user() === NULL )
+		@if( $authUser === NULL )
 		$(".js-register-tab").on("click", function () {
 			popup.show("{{ route('popup.register') }}");
 		});

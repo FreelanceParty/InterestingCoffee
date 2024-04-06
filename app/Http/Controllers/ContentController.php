@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
+use Throwable;
 
 /**
  * Class ContentController
@@ -10,41 +11,64 @@ use Illuminate\Http\JsonResponse;
  */
 class ContentController extends Controller
 {
-	/*** @return JsonResponse */
+	/***
+	 * @return JsonResponse
+	 * @throws Throwable
+	 */
 	public function getCoffeesView(): JsonResponse
 	{
 		return response()->json([
-			'view' => view('tabs.coffees', [
+			'view' => view('content.product.coffees', [
 				'coffees' => coffeeController()->getAll(),
 			])->render(),
 		]);
 	}
 
-	/*** @return JsonResponse */
+	/***
+	 * @return JsonResponse
+	 * @throws Throwable
+	 */
 	public function getDelicaciesView(): JsonResponse
 	{
 		return response()->json([
-			'view' => view('tabs.delicacies', [
+			'view' => view('content.product.delicacies', [
 				'delicacies' => delicacyController()->getAll(),
 			])->render(),
 		]);
 	}
 
-	/*** @return JsonResponse */
+	/***
+	 * @return JsonResponse
+	 * @throws Throwable
+	 */
 	public function getSpicesView(): JsonResponse
 	{
 		return response()->json([
-			'view' => view('tabs.spices', [
+			'view' => view('content.product.spices', [
 				'spices' => spiceController()->getAll(),
 			])->render(),
 		]);
 	}
 
-	/*** @return JsonResponse */
+	/***
+	 * @return JsonResponse
+	 * @throws Throwable
+	 */
 	public function getHomeView(): JsonResponse
 	{
 		return response()->json([
-			'view' => view('tabs.home')->render(),
+			'view' => view('content.home')->render(),
+		]);
+	}
+
+	/***
+	 * @return JsonResponse
+	 * @throws Throwable
+	 */
+	public function getStatisticsView(): JsonResponse
+	{
+		return response()->json([
+			'view' => view('content.statistics')->render(),
 		]);
 	}
 }

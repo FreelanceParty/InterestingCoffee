@@ -10,9 +10,9 @@ Route::get('/', static function() {
 });
 Route::group(['prefix' => '/action'], static function() {
 	Route::post('/send_feedback', [ActionController::class, 'sendFeedback'])->name('action.send-feedback');
-	Route::group(['prefix' => '/product'], static function() {
-		//		Route::post('/create', [PopupController::class, 'getInfoPopup'])->name('popup.product.create'); TODO:
-		//		Route::post('/edit', [PopupController::class, 'getEditProductPopup'])->name('popup.product.edit');
+	Route::group(['prefix' => '/product', 'middleware' => ['isAdmin']], static function() {
+		Route::post('/add', [ActionController::class, 'addProduct'])->name('action.product.add');
+		Route::post('/edit', [ActionController::class, 'updateProduct'])->name('action.product.edit');
 		Route::post('/delete', [ActionController::class, 'deleteProduct'])->name('action.product.delete');
 	});
 });
@@ -27,8 +27,8 @@ Route::group(['prefix' => '/popup'], static function() {
 	Route::post('/info', [PopupController::class, 'getInfoPopup'])->middleware('isAdmin')->name('popup.info');
 	Route::post('/login', [PopupController::class, 'getLoginPopup'])->name('popup.login');
 	Route::post('/register', [PopupController::class, 'getRegisterPopup'])->name('popup.register');
-	Route::group(['prefix' => '/product'], static function() {
-		//		Route::post('/create', [PopupController::class, 'getInfoPopup'])->name('popup.product.create'); TODO:
+	Route::group(['prefix' => '/product', 'middleware' => ['isAdmin']], static function() {
+		Route::post('/add', [PopupController::class, 'getCreateProductPopup'])->name('popup.product.add');
 		Route::post('/edit', [PopupController::class, 'getEditProductPopup'])->name('popup.product.edit');
 		Route::post('/delete', [PopupController::class, 'getDeleteProductPopup'])->name('popup.product.delete');
 	});

@@ -1,4 +1,4 @@
-<form method="POST" action="{{ route('login') }}">
+<form method="POST" action="{{ route('login') }}" class="min-w-80">
 	@csrf
 
 	<!-- Email Address -->

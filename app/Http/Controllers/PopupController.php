@@ -59,8 +59,46 @@ class PopupController extends Controller
 		]);
 	}
 
-	public function getEditProductPopup()
+	/**
+	 * @param Request $request
+	 * @return JsonResponse
+	 * @throws Throwable
+	 * @throws CoffeeNotFoundException
+	 * @throws DelicacyNotFoundException
+	 * @throws SpiceNotFoundException
+	 */
+	public function getEditProductPopup(Request $request): JsonResponse
 	{
+		$productId   = $request->get('product_id');
+		$productType = $request->get('product_type');
+		/*** @var AProduct $product */
+		if ($productType === ProductType::COFFEE) {
+			$product = coffeeController()->findById($productId);
+		}
+		if ($productType === ProductType::DELICACY) {
+			$product = delicacyController()->findById($productId);
+		}
+		if ($productType === ProductType::SPICE) {
+			$product = spiceController()->findById($productId);
+		}
+		return response()->json([
+			'headerText' => "Оновлення продукту",
+			'html' => view('popup.product.edit', [
+				'product' => $product,
+			])->render(),
+		]);
+	}
+
+	/**
+	 * @return JsonResponse
+	 * @throws Throwable
+	 */
+	public function getCreateProductPopup(): JsonResponse
+	{
+		return response()->json([
+			'headerText' => "Додавання продукту",
+			'html' => view('popup.product.add')->render(),
+		]);
 	}
 
 	/**
@@ -86,6 +124,7 @@ class PopupController extends Controller
 			$product = spiceController()->findById($productId);
 		}
 		return response()->json([
+			'headerText' => "Видалення продукту",
 			'html' => view('popup.product.delete', [
 				'id'          => $productId,
 				'productType' => $productType,

@@ -22,7 +22,7 @@
 	<div id="js-console" class="flex h-screen">
 		@include('navigation')
 		<div class="flex flex-col justify-between w-full">
-			<div class="js-content flex flex-col p-4 overflow-y-auto gap-4 h-full">
+			<div class="js-content flex flex-col p-4 gap-4 h-full bg-white overflow-y-auto">
 				@include('content.home')
 			</div>
 			@include('footer')

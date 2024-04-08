@@ -57,7 +57,7 @@ class ContentController extends Controller
 	public function getHomeView(): JsonResponse
 	{
 		return response()->json([
-			'view' => view('content.home', [
+			'view' => view('content.home._common', [
 				'feedbacks' => feedbackController()->getAll()->take(4),
 			])->render(),
 		]);

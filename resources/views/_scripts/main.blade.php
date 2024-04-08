@@ -41,16 +41,14 @@
 
 		$popupClose.on("click", hidePopup);
 		$popup.on("click", function (event) {
-			if(event.target === this) {
+			if (event.target === this) {
 				hidePopup();
 			}
-		})
+		});
 
 		function hidePopup() {
 			$popup.addClass("hidden");
 		}
-
-
 
 		return {
 			show:     function (route, data = {}) {

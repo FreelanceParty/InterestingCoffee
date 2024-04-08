@@ -23,7 +23,7 @@
 		@include('navigation')
 		<div class="flex flex-col justify-between w-full">
 			<div class="js-content flex flex-col p-4 gap-4 h-full bg-white overflow-y-auto">
-				@include('content.home')
+				@include('content.home._common')
 			</div>
 			@include('footer')
 		</div>

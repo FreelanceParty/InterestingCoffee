@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Throwable;
 
 /**
@@ -83,6 +85,27 @@ class ContentController extends Controller
 		return response()->json([
 			'view' => view('content.feedbacks', [
 				'feedbacks' => feedbackController()->getAll(),
+			])->render(),
+		]);
+	}
+
+	/***
+	 * @return JsonResponse
+	 * @throws Throwable
+	 */
+	public function getQuestionsView(): JsonResponse
+	{
+		/*** @var User $authUser */
+		$authUser = Auth::user();
+		if ($authUser->isAdmin()) {
+			$questions = questionController()->getAllWithoutAnswer();
+		} else {
+			$questions = questionController()->getAllForUser($authUser->getId());
+		}
+		return response()->json([
+			'view' => view('content.questions._common', [
+				'authUser'  => $authUser,
+				'questions' => $questions,
 			])->render(),
 		]);
 	}

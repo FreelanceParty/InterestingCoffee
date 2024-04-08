@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\CoffeeNotFoundException;
 use App\Exceptions\DelicacyNotFoundException;
+use App\Exceptions\QuestionNotFoundException;
 use App\Exceptions\SpiceNotFoundException;
+use App\Exceptions\UserNotFoundException;
 use App\Models\Abstracts\AProduct;
 use App\Models\Coffee;
 use App\Models\Delicacy;
 use App\Models\Feedback;
+use App\Models\Question;
 use App\Models\Spice;
 use App\ValuesObject\ProductType;
 use Illuminate\Http\JsonResponse;
@@ -38,6 +41,40 @@ class ActionController extends Controller
 		]);
 	}
 
+	/***
+	 * @param Request $request
+	 * @return JsonResponse
+	 * @throws UserNotFoundException
+	 */
+	public function sendQuestion(Request $request): JsonResponse
+	{
+		$user     = userController()->findById($request->get('user_id'));
+		$text     = $request->get('text');
+		$question = new Question();
+		$question->setUserId($user->getId());
+		$question->setText($text);
+		$question->save();
+		return response()->json([
+			'ack' => 'success',
+		]);
+	}
+
+	/***
+	 * @param Request $request
+	 * @return JsonResponse
+	 * @throws QuestionNotFoundException
+	 */
+	public function replyQuestion(Request $request): JsonResponse
+	{
+		$question = questionController()->findById($request->get('question_id'));
+		$answer   = $request->get('answer');
+		$question->setAnswer($answer);
+		$question->save();
+		return response()->json([
+			'ack' => 'success',
+		]);
+	}
+
 	/**
 	 * @param Request $request
 	 * @return JsonResponse
@@ -45,9 +82,9 @@ class ActionController extends Controller
 	public function addProduct(Request $request): JsonResponse
 	{
 		$productType = $request->get('product_type');
-		$title    = $request->get('title');
-		$price    = $request->get('price');
-		$image = Image::make($request->file('image'));
+		$title       = $request->get('title');
+		$price       = $request->get('price');
+		$image       = Image::make($request->file('image'));
 		/*** @var AProduct $product */
 		if ($productType === ProductType::COFFEE) {
 			$product = new Coffee();
@@ -80,7 +117,7 @@ class ActionController extends Controller
 		$productType = $request->get('product_type');
 		$newTitle    = $request->get('title');
 		$newPrice    = $request->get('price');
-		$newImage = Image::make($request->file('image'));
+		$newImage    = Image::make($request->file('image'));
 		/*** @var AProduct $product */
 		if ($productType === ProductType::COFFEE) {
 			$product = coffeeController()->findById($productId);

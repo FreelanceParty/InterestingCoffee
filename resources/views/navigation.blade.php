@@ -41,7 +41,7 @@
 			</script>
 		@endif
 	</div>
-	<div class="flex flex-col gap-5">
+	<div class="flex flex-col gap-8">
 		@if( $authUser === NULL )
 			<div class="js-login-tab cursor-pointer items-center flex flex-col gap-2">
 				<i class="fa-solid fa-right-to-bracket fa-xl"></i>
@@ -52,6 +52,10 @@
 				Реєстрація
 			</div>
 		@else
+			<div data-route="{{ route('content.questions') }}" class="js-tab cursor-pointer items-center flex flex-col gap-2">
+				<i class="fa-solid fa-question fa-xl"></i>
+				Запитання
+			</div>
 			<div class="js-logout-tab cursor-pointer items-center flex flex-col gap-2">
 				<i class="fa-solid fa-right-to-bracket fa-rotate-180 fa-xl"></i>
 				Вийти

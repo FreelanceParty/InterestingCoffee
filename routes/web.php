@@ -12,6 +12,8 @@ Route::get('/', static function() {
 });
 Route::group(['prefix' => '/action'], static function() {
 	Route::post('/send_feedback', [ActionController::class, 'sendFeedback'])->name('action.send-feedback');
+	Route::post('/send_question', [ActionController::class, 'sendQuestion'])->name('action.send-question');
+	Route::post('/reply_question', [ActionController::class, 'replyQuestion'])->middleware('isAdmin')->name('action.reply-question');
 	Route::group(['prefix' => '/product', 'middleware' => ['isAdmin']], static function() {
 		Route::post('/add', [ActionController::class, 'addProduct'])->name('action.product.add');
 		Route::post('/edit', [ActionController::class, 'updateProduct'])->name('action.product.edit');
@@ -24,10 +26,11 @@ Route::group(['prefix' => '/content'], static function() {
 	Route::post('/spices', [ContentController::class, 'getSpicesView'])->name('content.spices');
 	Route::post('/home', [ContentController::class, 'getHomeView'])->name('content.home');
 	Route::post('/feedbacks', [ContentController::class, 'getFeedbacksView'])->name('content.feedbacks');
-	Route::post('/statistics', [ContentController::class, 'getStatisticsView'])->name('content.statistics');
+	Route::post('/questions', [ContentController::class, 'getQuestionsView'])->name('content.questions');
+	Route::post('/statistics', [ContentController::class, 'getStatisticsView'])->middleware('isAdmin')->name('content.statistics');
 });
 Route::group(['prefix' => '/popup'], static function() {
-	Route::post('/info', [PopupController::class, 'getInfoPopup'])->middleware('isAdmin')->name('popup.info');
+	Route::post('/info', [PopupController::class, 'getInfoPopup'])->name('popup.info');
 	Route::post('/login', [PopupController::class, 'getLoginPopup'])->name('popup.login');
 	Route::post('/register', [PopupController::class, 'getRegisterPopup'])->name('popup.register');
 	Route::group(['prefix' => '/product', 'middleware' => ['isAdmin']], static function() {

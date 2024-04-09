@@ -50,6 +50,12 @@
 			$popup.addClass("hidden");
 		}
 
+		$(document).keyup(function (e) {
+			if (e.key === "Escape") {
+				hidePopup();
+			}
+		});
+
 		return {
 			show:     function (route, data = {}) {
 				sendRequest(

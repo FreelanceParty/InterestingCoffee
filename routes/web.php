@@ -25,6 +25,7 @@ Route::group(['prefix' => '/content'], static function() {
 	Route::post('/delicacies', [ContentController::class, 'getDelicaciesView'])->name('content.delicacies');
 	Route::post('/spices', [ContentController::class, 'getSpicesView'])->name('content.spices');
 	Route::post('/home', [ContentController::class, 'getHomeView'])->name('content.home');
+	Route::post('/menu', [ContentController::class, 'getMenuView'])->name('content.menu');
 	Route::post('/feedbacks', [ContentController::class, 'getFeedbacksView'])->name('content.feedbacks');
 	Route::post('/questions', [ContentController::class, 'getQuestionsView'])->name('content.questions');
 	Route::post('/statistics', [ContentController::class, 'getStatisticsView'])->middleware('isAdmin')->name('content.statistics');

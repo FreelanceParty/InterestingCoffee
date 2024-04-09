@@ -69,6 +69,21 @@ class ContentController extends Controller
 	 * @return JsonResponse
 	 * @throws Throwable
 	 */
+	public function getMenuView(): JsonResponse
+	{
+		return response()->json([
+			'view' => view('content.menu', [
+				'coffees'    => coffeeController()->getAll()->take(3),
+				'spices'     => spiceController()->getAll()->take(3),
+				'delicacies' => delicacyController()->getAll()->take(3),
+			])->render(),
+		]);
+	}
+
+	/***
+	 * @return JsonResponse
+	 * @throws Throwable
+	 */
 	public function getStatisticsView(): JsonResponse
 	{
 		return response()->json([

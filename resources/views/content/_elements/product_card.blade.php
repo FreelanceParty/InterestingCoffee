@@ -1,14 +1,15 @@
 @php
 	use App\Models\User;
 	use Illuminate\Support\Facades\Auth;
+	use App\ValuesObject\ProductType;
 	/*** @var User $authUser */
 	$authUser = Auth::user();
 @endphp
 
 <div id="{{ $productType }}-{{ $id }}"
-		class="js-product-card flex flex-col w-[250px] border-2 border-gray-300 rounded-lg shadow-xl transition duration-200 ease-in-out hover:scale-105 hover:shadow-2xl cursor-pointer">
+		class="js-product-card flex flex-col w-[250px] border-2 border-gray-300 rounded-lg shadow-xl transition duration-200 ease-in-out hover:scale-105 hover:shadow-2xl">
 	<div class="flex w-[250px] h-[250px] items-center justify-center border-b-2 border-gray-300 p-3">
-		<img class="w-full h-full rounded-xl" src="{{ $image }}" alt='{{ $title }}'>
+		<img class="w-full h-full rounded-xl" src="{{ $image ?? asset(ProductType::DEFAULT_IMAGE_PATH[$productType]) }}" alt='{{ $title }}'>
 	</div>
 	<div class="flex gap-2 h-20 justify-center text-center bg-amber-100 rounded-b-lg">
 		<div class="flex flex-col justify-center gap-2 w-2/3">
@@ -37,7 +38,7 @@
 
 					$actionBtn.on("click", function () {
 						popup.show(
-							$(this).data('route'),
+							$(this).data("route"),
 							{
 								product_id:   '{{ $id }}',
 								product_type: '{{ $productType }}'

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\CoffeeNotFoundException;
 use App\Exceptions\DelicacyNotFoundException;
-use App\Exceptions\SpiceNotFoundException;
+use App\Exceptions\AdditionNotFoundException;
 use App\Models\Abstracts\AProduct;
 use App\ValuesObject\InfoType;
 use App\ValuesObject\ProductType;
@@ -65,7 +65,7 @@ class PopupController extends Controller
 	 * @throws Throwable
 	 * @throws CoffeeNotFoundException
 	 * @throws DelicacyNotFoundException
-	 * @throws SpiceNotFoundException
+	 * @throws AdditionNotFoundException
 	 */
 	public function getEditProductPopup(Request $request): JsonResponse
 	{
@@ -78,8 +78,8 @@ class PopupController extends Controller
 		if ($productType === ProductType::DELICACY) {
 			$product = delicacyController()->findById($productId);
 		}
-		if ($productType === ProductType::SPICE) {
-			$product = spiceController()->findById($productId);
+		if ($productType === ProductType::ADDITION) {
+			$product = additionController()->findById($productId);
 		}
 		return response()->json([
 			'headerText' => "Оновлення продукту",
@@ -107,7 +107,7 @@ class PopupController extends Controller
 	 * @throws Throwable
 	 * @throws CoffeeNotFoundException
 	 * @throws DelicacyNotFoundException
-	 * @throws SpiceNotFoundException
+	 * @throws AdditionNotFoundException
 	 */
 	public function getDeleteProductPopup(Request $request): JsonResponse
 	{
@@ -120,8 +120,8 @@ class PopupController extends Controller
 		if ($productType === ProductType::DELICACY) {
 			$product = delicacyController()->findById($productId);
 		}
-		if ($productType === ProductType::SPICE) {
-			$product = spiceController()->findById($productId);
+		if ($productType === ProductType::ADDITION) {
+			$product = additionController()->findById($productId);
 		}
 		return response()->json([
 			'headerText' => "Видалення продукту",

@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
 			CoffeeSeeder::class,
 			DelicacySeeder::class,
 			FeedbackSeeder::class,
-			SpiceSeeder::class,
+			AdditionSeeder::class,
 			UserSeeder::class,
 		]);
 	}

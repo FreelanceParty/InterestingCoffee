@@ -11,9 +11,9 @@
 			<i class="fa-sharp fa-solid fa-mug-saucer fa-xl"></i>
 			Кава
 		</div>
-		<div data-route="{{ route('content.spices') }}" class="js-tab cursor-pointer items-center flex flex-col gap-2">
+		<div data-route="{{ route('content.additions') }}" class="js-tab cursor-pointer items-center flex flex-col gap-2">
 			<i class="fa-solid fa-candy-cane fa-xl"></i>
-			Спеції
+			Добавки
 		</div>
 		<div data-route="{{ route('content.delicacies') }}" class="js-tab cursor-pointer items-center flex flex-col gap-2">
 			<i class="fa-solid fa-cookie fa-xl"></i>

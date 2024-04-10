@@ -3,6 +3,6 @@
 @endphp
 
 @extends('content.product._common', [
-	'productType' => ProductType::SPICE,
-	'products' => $spices,
+	'productType' => ProductType::ADDITION,
+	'products' => $additions,
 ])

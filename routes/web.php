@@ -23,7 +23,7 @@ Route::group(['prefix' => '/action'], static function() {
 Route::group(['prefix' => '/content'], static function() {
 	Route::post('/coffees', [ContentController::class, 'getCoffeesView'])->name('content.coffees');
 	Route::post('/delicacies', [ContentController::class, 'getDelicaciesView'])->name('content.delicacies');
-	Route::post('/spices', [ContentController::class, 'getSpicesView'])->name('content.spices');
+	Route::post('/additions', [ContentController::class, 'getAdditionsView'])->name('content.additions');
 	Route::post('/home', [ContentController::class, 'getHomeView'])->name('content.home');
 	Route::post('/menu', [ContentController::class, 'getMenuView'])->name('content.menu');
 	Route::post('/feedbacks', [ContentController::class, 'getFeedbacksView'])->name('content.feedbacks');

@@ -4,7 +4,7 @@ use App\ModelControllers\CoffeeController;
 use App\ModelControllers\DelicacyController;
 use App\ModelControllers\FeedbackController;
 use App\ModelControllers\QuestionController;
-use App\ModelControllers\SpiceController;
+use App\ModelControllers\AdditionController;
 use App\ModelControllers\UserController;
 
 if ( ! function_exists('coffeeController')) {
@@ -14,11 +14,11 @@ if ( ! function_exists('coffeeController')) {
 		return app('CoffeeController');
 	}
 }
-if ( ! function_exists('spiceController')) {
-	/*** @return SpiceController */
-	function spiceController(): SpiceController
+if ( ! function_exists('additionController')) {
+	/*** @return AdditionController */
+	function additionController(): AdditionController
 	{
-		return app('SpiceController');
+		return app('AdditionController');
 	}
 }
 if ( ! function_exists('delicacyController')) {

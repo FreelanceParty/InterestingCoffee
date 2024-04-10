@@ -2,11 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\Spice;
+use App\Models\Addition;
+use App\ValuesObject\AdditionType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/*** @extends Factory<Spice> */
-class SpiceFactory extends Factory
+/*** @extends Factory<Addition> */
+class AdditionFactory extends Factory
 {
 	/**
 	 * Define the model's default state.
@@ -17,6 +18,7 @@ class SpiceFactory extends Factory
 		return [
 			'title' => $this->faker->word(),
 			'price' => $this->faker->randomFloat(2, 0, 200),
+			'addition_type_id' => AdditionType::OTHER
 		];
 	}
 }

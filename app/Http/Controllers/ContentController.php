@@ -43,11 +43,11 @@ class ContentController extends Controller
 	 * @return JsonResponse
 	 * @throws Throwable
 	 */
-	public function getSpicesView(): JsonResponse
+	public function getAdditionsView(): JsonResponse
 	{
 		return response()->json([
-			'view' => view('content.product.spices', [
-				'spices' => spiceController()->getAll(),
+			'view' => view('content.product.additions', [
+				'additions' => additionController()->getAll(),
 			])->render(),
 		]);
 	}
@@ -74,7 +74,7 @@ class ContentController extends Controller
 		return response()->json([
 			'view' => view('content.menu', [
 				'coffees'    => coffeeController()->getAll()->take(3),
-				'spices'     => spiceController()->getAll()->take(3),
+				'additions'  => additionController()->getAll()->take(3),
 				'delicacies' => delicacyController()->getAll()->take(3),
 			])->render(),
 		]);

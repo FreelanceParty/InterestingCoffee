@@ -15,7 +15,7 @@ class DelicacySeeder extends Seeder
 	public function run(): void
 	{
 		Delicacy::factory()
-			->count(20)
+			->count(15)
 			->create();
 	}
 }

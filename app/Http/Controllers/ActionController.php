@@ -5,14 +5,14 @@ namespace App\Http\Controllers;
 use App\Exceptions\CoffeeNotFoundException;
 use App\Exceptions\DelicacyNotFoundException;
 use App\Exceptions\QuestionNotFoundException;
-use App\Exceptions\SpiceNotFoundException;
+use App\Exceptions\AdditionNotFoundException;
 use App\Exceptions\UserNotFoundException;
 use App\Models\Abstracts\AProduct;
+use App\Models\Addition;
 use App\Models\Coffee;
 use App\Models\Delicacy;
 use App\Models\Feedback;
 use App\Models\Question;
-use App\Models\Spice;
 use App\ValuesObject\ProductType;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -92,8 +92,8 @@ class ActionController extends Controller
 		if ($productType === ProductType::DELICACY) {
 			$product = new Delicacy();
 		}
-		if ($productType === ProductType::SPICE) {
-			$product = new Spice();
+		if ($productType === ProductType::ADDITION) {
+			$product = new Addition();
 		}
 		$product->setTitle($title);
 		$product->setPrice($price);
@@ -109,7 +109,7 @@ class ActionController extends Controller
 	 * @return JsonResponse
 	 * @throws CoffeeNotFoundException
 	 * @throws DelicacyNotFoundException
-	 * @throws SpiceNotFoundException
+	 * @throws AdditionNotFoundException
 	 */
 	public function updateProduct(Request $request): JsonResponse
 	{
@@ -125,8 +125,8 @@ class ActionController extends Controller
 		if ($productType === ProductType::DELICACY) {
 			$product = delicacyController()->findById($productId);
 		}
-		if ($productType === ProductType::SPICE) {
-			$product = spiceController()->findById($productId);
+		if ($productType === ProductType::ADDITION) {
+			$product = additionController()->findById($productId);
 		}
 		$product->setTitle($newTitle);
 		$product->setPrice($newPrice);
@@ -142,7 +142,7 @@ class ActionController extends Controller
 	 * @return JsonResponse
 	 * @throws CoffeeNotFoundException
 	 * @throws DelicacyNotFoundException
-	 * @throws SpiceNotFoundException
+	 * @throws AdditionNotFoundException
 	 */
 	public function deleteProduct(Request $request): JsonResponse
 	{
@@ -155,8 +155,8 @@ class ActionController extends Controller
 		if ($productType === ProductType::DELICACY) {
 			$product = delicacyController()->findById($productId);
 		}
-		if ($productType === ProductType::SPICE) {
-			$product = spiceController()->findById($productId);
+		if ($productType === ProductType::ADDITION) {
+			$product = additionController()->findById($productId);
 		}
 		$product->delete();
 		return response()->json([

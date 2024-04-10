@@ -8,6 +8,7 @@ use App\ValuesObject\ProductType;
  * Class Coffee
  * @property string      $title
  * @property float       $price
+ * @property string|NULL $description
  * @property string|NULL $image
  * @package App\Models
  */
@@ -44,6 +45,21 @@ class AProduct extends AModel
 	public function setPrice(float $price): void
 	{
 		$this->price = $price;
+	}
+
+	/*** @return string|NULL */
+	public function getDescription(): ?string
+	{
+		return $this->description;
+	}
+
+	/**
+	 * @param string|NULL $description
+	 * @return void
+	 */
+	public function setDescription(?string $description): void
+	{
+		$this->description = $description;
 	}
 
 	/*** @return string|NULL */

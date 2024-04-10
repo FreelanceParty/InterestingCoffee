@@ -50,8 +50,8 @@
 				imagePath = '{{ asset(ProductType::DEFAULT_IMAGE_PATH[ProductType::COFFEE]) }}';
 			} else if ($productTypeSelect.val() === '{{ ProductType::DELICACY }}') {
 				imagePath = '{{ asset(ProductType::DEFAULT_IMAGE_PATH[ProductType::DELICACY]) }}';
-			} else if ($productTypeSelect.val() === '{{ ProductType::SPICE }}') {
-				imagePath = '{{ asset(ProductType::DEFAULT_IMAGE_PATH[ProductType::SPICE]) }}';
+			} else if ($productTypeSelect.val() === '{{ ProductType::ADDITION }}') {
+				imagePath = '{{ asset(ProductType::DEFAULT_IMAGE_PATH[ProductType::ADDITION]) }}';
 			} else {
 				return;
 			}

@@ -2,20 +2,20 @@
 
 namespace Database\Seeders;
 
-use App\Models\Spice;
+use App\Models\Addition;
 use Illuminate\Database\Seeder;
 
 /**
- * Class SpiceSeeder
+ * Class AdditionSeeder
  * @package Database\Seeders
  */
-class SpiceSeeder extends Seeder
+class AdditionSeeder extends Seeder
 {
 	/*** Seed the application's database. */
 	public function run(): void
 	{
-		Spice::factory()
-			->count(20)
+		Addition::factory()
+			->count(15)
 			->create();
 	}
 }

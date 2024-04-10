@@ -15,7 +15,7 @@ class CoffeeSeeder extends Seeder
 	public function run(): void
 	{
 		Coffee::factory()
-			->count(20)
+			->count(15)
 			->create();
 	}
 }

@@ -16,16 +16,16 @@
 		<button data-route="{{route('content.coffees')}}" class="js-see-more bg-blue-700 text-white px-3 py-1 rounded-xl h-20">Переглянути ще</button>
 	</div>
 	<div class="flex gap-4 items-center">
-		@foreach( $spices as $spice )
+		@foreach( $additions as $addition )
 			@include('content._elements.product_card', [
-				'productType' => ProductType::SPICE,
-				'id' => $spice->getId(),
-				'image' => $spice->getImage(),
-				'title' => $spice->getTitle(),
-				'price' => $spice->getPrice(),
+				'productType' => ProductType::ADDITION,
+				'id' => $addition->getId(),
+				'image' => $addition->getImage(),
+				'title' => $addition->getTitle(),
+				'price' => $addition->getPrice(),
 			])
 		@endforeach
-		<button data-route="{{route('content.spices')}}" class="js-see-more bg-blue-700 text-white px-3 py-1 rounded-xl h-20">Переглянути ще</button>
+		<button data-route="{{route('content.additions')}}" class="js-see-more bg-blue-700 text-white px-3 py-1 rounded-xl h-20">Переглянути ще</button>
 	</div>
 	<div class="flex gap-4 items-center">
 		@foreach($delicacies as $delicacy)

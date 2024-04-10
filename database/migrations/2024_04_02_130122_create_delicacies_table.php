@@ -14,7 +14,7 @@ return new class extends Migration {
 			$table->string('title');
 			$table->float('price');
 			$table->timestamp('created_at')->useCurrent();
-			$table->timestamp('updated_at')->useCurrentOnUpdate();
+			$table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
 		});
 		DB::statement("ALTER TABLE `delicacies` ADD `image` MEDIUMBLOB AFTER `price`");
 	}

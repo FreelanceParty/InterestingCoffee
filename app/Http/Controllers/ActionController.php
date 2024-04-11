@@ -14,8 +14,10 @@ use App\Models\Delicacy;
 use App\Models\Feedback;
 use App\Models\Question;
 use App\ValuesObject\ProductType;
+use Faker\Guesser\Name;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
 
 /**
@@ -81,10 +83,28 @@ class ActionController extends Controller
 	 */
 	public function addProduct(Request $request): JsonResponse
 	{
+		$validator = Validator::make($request->all(), [
+			'product_type' => 'required|in:' . implode(',', ProductType::ALL),
+			'title' => 'required|string|max:255',
+			'price' => 'required|numeric',
+			'description' => 'nullable|string',
+			'image' => 'nullable|image',
+		]);
+
+		if ($validator->fails()) {
+			return response()->json([
+				'ack' => "fail",
+				'errors' => $validator->errors(),]);
+		}
+
 		$productType = $request->get('product_type');
 		$title       = $request->get('title');
 		$price       = $request->get('price');
-		$image       = Image::make($request->file('image'));
+		$description = $request->get('description');
+		$image = NULL;
+		if ($request->hasFile('image')) {
+			$image       = Image::make($request->file('image'));
+		}
 		/*** @var AProduct $product */
 		if ($productType === ProductType::COFFEE) {
 			$product = new Coffee();
@@ -95,9 +115,13 @@ class ActionController extends Controller
 		if ($productType === ProductType::ADDITION) {
 			$product = new Addition();
 		}
+
 		$product->setTitle($title);
 		$product->setPrice($price);
-		$product->setImage($image->encode('data-url', 80)->encoded);
+		$product->setDescription($description);
+		if ($image != NULL) {
+			$product->setImage($image->encode('data-url', 80)->encoded);
+		}
 		$product->save();
 		return response()->json([
 			'ack' => 'success',
@@ -113,11 +137,31 @@ class ActionController extends Controller
 	 */
 	public function updateProduct(Request $request): JsonResponse
 	{
+		$validator = Validator::make($request->all(), [
+			'product_id' => 'required',
+			'product_type' => 'required|in:' . implode(',', ProductType::ALL),
+			'title' => 'required|string|max:255',
+			'price' => 'required|numeric',
+			'description' => 'nullable|string',
+			'image' => 'nullable|image',
+		]);
+
+		if ($validator->fails()) {
+			return response()->json([
+				'ack' => "fail",
+				'errors' => $validator->errors(),]);
+		}
+
 		$productId   = $request->get('product_id');
 		$productType = $request->get('product_type');
 		$newTitle    = $request->get('title');
 		$newPrice    = $request->get('price');
-		$newImage    = Image::make($request->file('image'));
+		$newDescription = $request->get('description');
+		$newImage = NULL;
+		if ($request->hasFile('image')) {
+			$newImage = Image::make($request->file('image'));
+		}
+
 		/*** @var AProduct $product */
 		if ($productType === ProductType::COFFEE) {
 			$product = coffeeController()->findById($productId);
@@ -130,7 +174,10 @@ class ActionController extends Controller
 		}
 		$product->setTitle($newTitle);
 		$product->setPrice($newPrice);
-		$product->setImage($newImage->encode('data-url', 80)->encoded);
+		$product->setDescription($newDescription);
+		if ($newImage != NULL) {
+			$product->setImage($newImage->encode('data-url', 80)->encoded);
+		}
 		$product->save();
 		return response()->json([
 			'ack' => 'success',

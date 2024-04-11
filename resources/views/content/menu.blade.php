@@ -11,6 +11,7 @@
 				'image'       => $coffee->getImage(),
 				'title'       => $coffee->getTitle(),
 				'price'       => $coffee->getPrice(),
+				'description' => $coffee->getDescription(),
 			])
 		@endforeach
 		<button data-route="{{route('content.coffees')}}" class="js-see-more bg-blue-700 text-white px-3 py-1 rounded-xl h-20">Переглянути ще</button>
@@ -23,6 +24,7 @@
 				'image' => $addition->getImage(),
 				'title' => $addition->getTitle(),
 				'price' => $addition->getPrice(),
+				'description' => $addition->getDescription(),
 			])
 		@endforeach
 		<button data-route="{{route('content.additions')}}" class="js-see-more bg-blue-700 text-white px-3 py-1 rounded-xl h-20">Переглянути ще</button>
@@ -35,6 +37,7 @@
 				'image' => $delicacy->getImage(),
 				'title' => $delicacy->getTitle(),
 				'price' => $delicacy->getPrice(),
+				'description' => $delicacy->getDescription(),
 			])
 		@endforeach
 		<button data-route="{{route('content.delicacies')}}" class="js-see-more bg-blue-700 text-white px-3 py-1 rounded-xl h-20">Переглянути ще</button>

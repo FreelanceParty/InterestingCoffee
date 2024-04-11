@@ -7,6 +7,7 @@
 			'id' => $product->getId(),
 			'image' => $product->getImage() ?? asset(ProductType::DEFAULT_IMAGE_PATH[$productType]),
 			'title' => $product->getTitle(),
+			'description' => $product->getDescription(),
 			'price' => sprintf('%s $', $product->getPrice()),
 		])
 	@endforeach

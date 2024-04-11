@@ -11,13 +11,14 @@
 	;
 
 	function sendRequest(route, data = {}, successFunction = () => {
-	}, type = "POST") {
+	}, failFunction = () => {}, type = "POST") {
 		data["_token"] = "{{ csrf_token() }}";
 		$.ajax({
 			type:    type,
 			url:     route,
 			data:    data,
-			success: successFunction
+			success: successFunction,
+			fail: failFunction,
 		});
 	}
 

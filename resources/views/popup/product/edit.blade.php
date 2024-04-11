@@ -14,6 +14,10 @@
 				<input class="js-product-price px-2 w-full border-2 border-gray-200 rounded-lg text-lg" type="text" value="{{ $product->getPrice() }}">
 			</label>
 			<label class="flex flex-col">
+				Новий опис:
+				<input class="js-product-description px-2 w-full border-2 border-gray-200 rounded-lg text-lg" type="text" value="{{ $product->getDescription() }}">
+			</label>
+			<label class="flex flex-col">
 				Нове фото:
 				<input type="file" class="js-image-selector">
 			</label>
@@ -22,7 +26,7 @@
 			<img class="js-image-preview rounded-xl" src="{{ $product->getImage() ?? asset(ProductType::DEFAULT_IMAGE_PATH[$product::PRODUCT_TYPE])}}" alt="">
 		</div>
 	</div>
-	<button class="js-submit bg-blue-700 text-white px-3 py-1 rounded-xl ml-auto">Зберегти</button>
+	<button class="js-submit bg-blue-700 text-white px-3 py-1 rounded-xl ml-auto disabled:bg-gray-300">Зберегти</button>
 </div>
 <script>
 	$(document).ready(function () {
@@ -30,6 +34,7 @@
 			$popup = $("#popup"),
 			$newTitleInput = $popup.find(".js-product-name"),
 			$newPriceInput = $popup.find(".js-product-price"),
+			$newDescriptionInput = $popup.find(".js-product-description"),
 			$imageSelector = $popup.find(".js-image-selector"),
 			$imagePreview = $popup.find(".js-image-preview"),
 			$submitButton = $popup.find(".js-submit")
@@ -46,11 +51,23 @@
 			}
 		});
 
+		$newTitleInput.on("keyup", checkInputs);
+		$newPriceInput.on("keyup", checkInputs);
+
+		function checkInputs() {
+			if( $newTitleInput.val().length > 1 && $newPriceInput.val().length > 0) {
+				$submitButton.prop("disabled", false);
+			} else {
+				$submitButton.prop("disabled", true);
+			}
+		}
+
 		$submitButton.on("click", function () {
 			const formData = new FormData();
 			formData.append("_token", '{{ csrf_token() }}');
 			formData.append("title", $newTitleInput.val());
 			formData.append("price", $newPriceInput.val());
+			formData.append("description", $newDescriptionInput.val());
 			formData.append("image", $imageSelector[0].files[0]);
 			formData.append("product_type", '{{ $product::PRODUCT_TYPE }}');
 			formData.append("product_id", '{{ $product->getId() }}');
@@ -61,9 +78,13 @@
 				data:        formData,
 				processData: false,
 				contentType: false,
-				success:     () => {
-					popup.showInfo("Продукт оновлено!", '{{ InfoType::SUCCESS }}');
-				}
+				success:     (response) => {
+					if (response.ack === "success") {
+						popup.showInfo("Продукт оновлено!", '{{ InfoType::SUCCESS }}');
+					} else if (response.ack === "fail") {
+						popup.showInfo("Помилка", '{{ InfoType::ERROR }}');
+					}
+				},
 			});
 		});
 	});

@@ -22,6 +22,10 @@
 				<input class="js-product-price px-2 w-full border-2 border-gray-200 rounded-lg text-lg" type="text">
 			</label>
 			<label class="flex flex-col">
+				Опис:
+				<input type="text" class="js-product-description px-2 w-full border-2 border-gray-200 rounded-lg text-lg">
+			</label>
+			<label class="flex flex-col">
 				Фото:
 				<input type="file" class="js-image-selector">
 			</label>
@@ -29,8 +33,9 @@
 		<div class="m-auto w-40 h-40">
 			<img class="js-image-preview rounded-xl" src="{{ asset(ProductType::DEFAULT_IMAGE_PATH[ProductType::ALL[0]])}}" alt="">
 		</div>
+
 	</div>
-	<button class="js-submit bg-blue-700 text-white px-3 py-1 rounded-xl ml-auto">Додати</button>
+	<button class="js-submit bg-blue-700 text-white px-3 py-1 rounded-xl ml-auto disabled:bg-gray-300" disabled>Додати</button>
 </div>
 <script>
 	$(document).ready(function () {
@@ -39,6 +44,7 @@
 			$productTypeSelect = $popup.find(".js-product-type"),
 			$titleInput = $popup.find(".js-product-name"),
 			$priceInput = $popup.find(".js-product-price"),
+			$descriptionInput = $popup.find(".js-product-description"),
 			$imageSelector = $popup.find(".js-image-selector"),
 			$imagePreview = $popup.find(".js-image-preview"),
 			$submitButton = $popup.find(".js-submit")
@@ -69,12 +75,25 @@
 			}
 		});
 
+		$titleInput.on("keyup", checkInputs);
+		$priceInput.on("keyup", checkInputs);
+
+		function checkInputs() {
+			if( $titleInput.val().length > 1 && $priceInput.val().length > 0) {
+				$submitButton.prop("disabled", false);
+			} else {
+				$submitButton.prop("disabled", true);
+			}
+		}
+
 		$submitButton.on("click", function () {
+
 			const formData = new FormData();
 			formData.append("_token", '{{ csrf_token() }}');
 			formData.append("product_type", $productTypeSelect.val());
 			formData.append("title", $titleInput.val());
 			formData.append("price", $priceInput.val());
+			formData.append("description", $descriptionInput.val());
 			formData.append("image", $imageSelector[0].files[0]);
 
 			$.ajax({
@@ -83,8 +102,12 @@
 				data:        formData,
 				processData: false,
 				contentType: false,
-				success:     () => {
-					popup.showInfo("Продукт створено!", '{{ InfoType::SUCCESS }}');
+				success:     (response) => {
+					if(response.ack === 'success') {
+						popup.showInfo("Продукт створено!", '{{ InfoType::SUCCESS }}');
+					} else if(response.ack === 'fail') {
+						popup.showInfo("Помилка!!!", '{{InfoType::ERROR}}');
+					}
 				}
 			});
 		});

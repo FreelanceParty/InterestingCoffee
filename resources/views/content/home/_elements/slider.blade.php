@@ -9,15 +9,15 @@
 	}
 </style>
 <div class="js-slider hidden flex flex-col gap-2">
-	<div class="min-w-52 max-w-[800px] relative m-auto">
+	<div class="min-w-52 max-w-[90%] max-h-80 relative m-auto">
 		<div class="slide">
-			<img class="h-80 w-full rounded-xl" src="https://img.freepik.com/premium-photo/cup-coffee-with-smoke-coming-out-it_836919-976.jpg">
+			<img class="w-full rounded-xl" src="https://img.freepik.com/premium-photo/cup-coffee-with-smoke-coming-out-it_836919-976.jpg">
 		</div>
 		<div class="slide">
-			<img class="h-80 w-full rounded-xl" src="https://images.immediate.co.uk/production/volatile/sites/30/2020/08/health-benefits-of-coffee-main_image_700_350-cf61138.jpg?quality=90&fit=700,350">
+			<img class="w-full rounded-xl" src="https://images.immediate.co.uk/production/volatile/sites/30/2020/08/health-benefits-of-coffee-main_image_700_350-cf61138.jpg?quality=90&fit=700,350">
 		</div>
 		<div class="slide">
-			<img class="h-80 w-full rounded-xl" src="https://img.freepik.com/premium-photo/cup-coffee-with-coffee-beans-wooden-table-generative-ai_446633-29995.jpg">
+			<img class="w-full rounded-xl" src="https://img.freepik.com/premium-photo/cup-coffee-with-coffee-beans-wooden-table-generative-ai_446633-29995.jpg">
 		</div>
 
 		<a class="js-previous -left-[50px] cursor-pointer absolute top-[50%] p-2.5 -mt-[25px]">

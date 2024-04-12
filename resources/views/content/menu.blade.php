@@ -1,5 +1,5 @@
 @php
-	use App\ValuesObject\ProductType;
+	use App\ValuesObject\Constants\ProductType;
 @endphp
 
 <div id="menu-block" class="flex flex-col items-center gap-5">

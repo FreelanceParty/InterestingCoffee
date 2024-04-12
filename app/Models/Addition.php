@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\Abstracts\AProduct;
-use App\ValuesObject\ProductType;
+use App\ValuesObject\Constants\ProductType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**

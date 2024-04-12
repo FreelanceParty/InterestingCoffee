@@ -1,6 +1,6 @@
 <?php
 
-namespace App\ValuesObject;
+namespace App\ValuesObject\Constants;
 
 class AdditionType
 {

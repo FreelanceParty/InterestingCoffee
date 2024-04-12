@@ -4,7 +4,7 @@
 	</div>
 	<div class="w-full flex flex-wrap justify-center gap-4">
 		@foreach( $feedbacks as $feedback )
-			@include('content._elements.feedback_card', [
+			@include('content.feedbacks._elements.card', [
 				'user_name' => $feedback->getUserName(),
 				'text' => $feedback->getText(),
 				'created_at' => $feedback->getCreatedAt()->format('d.m.Y'),
@@ -18,12 +18,12 @@
 <script>
 	$(document).ready(function () {
 		const
-			$feedbackBlock = $('#js-feedback-block'),
-			$seeMore = $feedbackBlock.find('.js-see-more')
+			$feedbackBlock = $("#js-feedback-block"),
+			$seeMore = $feedbackBlock.find(".js-see-more")
 		;
 
-		$seeMore.on('click', function () {
+		$seeMore.on("click", function () {
 			changeMenu($(this).attr("data-route"));
-		})
-	})
+		});
+	});
 </script>

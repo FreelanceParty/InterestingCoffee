@@ -1,7 +1,7 @@
 @php
 	use Illuminate\Support\Facades\Auth;
 	use App\Models\User;
-	use App\ValuesObject\InfoType;
+	use App\ValuesObject\Constants\InfoType;
 
 	/*** @var User $authUser */
 	$authUser = Auth::user();

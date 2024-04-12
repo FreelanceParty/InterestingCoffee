@@ -14,8 +14,9 @@ class CoffeeSeeder extends Seeder
 	/*** Seed the application's database. */
 	public function run(): void
 	{
-		Coffee::factory()
-			->count(15)
-			->create();
+//		Coffee::factory()
+//			->count(15)
+//			->create();
+		CustomSeeder::seedCoffees();
 	}
 }

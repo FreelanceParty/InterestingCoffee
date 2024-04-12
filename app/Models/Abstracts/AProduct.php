@@ -2,7 +2,7 @@
 
 namespace App\Models\Abstracts;
 
-use App\ValuesObject\ProductType;
+use App\ValuesObject\Constants\ProductType;
 
 /**
  * Class Coffee

@@ -13,8 +13,8 @@ use App\Models\Coffee;
 use App\Models\Delicacy;
 use App\Models\Feedback;
 use App\Models\Question;
-use App\ValuesObject\ProductType;
-use Faker\Guesser\Name;
+use App\ValuesObject\Constants\ProductType;
+use App\ValuesObject\ModelCreator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -85,44 +85,26 @@ class ActionController extends Controller
 	{
 		$validator = Validator::make($request->all(), [
 			'product_type' => 'required|in:' . implode(',', ProductType::ALL),
-			'title' => 'required|string|max:255',
-			'price' => 'required|numeric',
-			'description' => 'nullable|string',
-			'image' => 'nullable|image',
+			'title'        => 'required|string|max:255',
+			'price'        => 'required|numeric',
+			'description'  => 'nullable|string',
+			'image'        => 'nullable|image',
 		]);
-
 		if ($validator->fails()) {
 			return response()->json([
-				'ack' => "fail",
-				'errors' => $validator->errors(),]);
+				'ack'    => "fail",
+				'errors' => $validator->errors(),
+			]);
 		}
-
 		$productType = $request->get('product_type');
 		$title       = $request->get('title');
 		$price       = $request->get('price');
 		$description = $request->get('description');
-		$image = NULL;
+		$image       = NULL;
 		if ($request->hasFile('image')) {
-			$image       = Image::make($request->file('image'));
+			$image = Image::make($request->file('image'));
 		}
-		/*** @var AProduct $product */
-		if ($productType === ProductType::COFFEE) {
-			$product = new Coffee();
-		}
-		if ($productType === ProductType::DELICACY) {
-			$product = new Delicacy();
-		}
-		if ($productType === ProductType::ADDITION) {
-			$product = new Addition();
-		}
-
-		$product->setTitle($title);
-		$product->setPrice($price);
-		$product->setDescription($description);
-		if ($image != NULL) {
-			$product->setImage($image->encode('data-url', 80)->encoded);
-		}
-		$product->save();
+		ModelCreator::createProduct($productType, $title, $price, $description, $image);
 		return response()->json([
 			'ack' => 'success',
 		]);
@@ -138,30 +120,28 @@ class ActionController extends Controller
 	public function updateProduct(Request $request): JsonResponse
 	{
 		$validator = Validator::make($request->all(), [
-			'product_id' => 'required',
+			'product_id'   => 'required',
 			'product_type' => 'required|in:' . implode(',', ProductType::ALL),
-			'title' => 'required|string|max:255',
-			'price' => 'required|numeric',
-			'description' => 'nullable|string',
-			'image' => 'nullable|image',
+			'title'        => 'required|string|max:255',
+			'price'        => 'required|numeric',
+			'description'  => 'nullable|string',
+			'image'        => 'nullable|image',
 		]);
-
 		if ($validator->fails()) {
 			return response()->json([
-				'ack' => "fail",
-				'errors' => $validator->errors(),]);
+				'ack'    => "fail",
+				'errors' => $validator->errors(),
+			]);
 		}
-
-		$productId   = $request->get('product_id');
-		$productType = $request->get('product_type');
-		$newTitle    = $request->get('title');
-		$newPrice    = $request->get('price');
+		$productId      = $request->get('product_id');
+		$productType    = $request->get('product_type');
+		$newTitle       = $request->get('title');
+		$newPrice       = $request->get('price');
 		$newDescription = $request->get('description');
-		$newImage = NULL;
+		$newImage       = NULL;
 		if ($request->hasFile('image')) {
 			$newImage = Image::make($request->file('image'));
 		}
-
 		/*** @var AProduct $product */
 		if ($productType === ProductType::COFFEE) {
 			$product = coffeeController()->findById($productId);

@@ -1,22 +1,22 @@
 @include('content.home._elements.slider')
-<div class="flex justify-between gap-4">
-	<div data-route="{{ route('content.menu') }}" class="js-menu w-1/2 bg-gradient-to-b from-gray-200 to-gray-300 rounded-lg justify-center shadow-xl cursor-pointer">
-		<img class="w-full " src="https://www.pngitem.com/pimgs/m/133-1331622_transparent-menu-png-logo-png-download.png" alt="Menu">
+<div class="flex flex-col sm:flex-row items-center justify-around gap-4">
+	<div data-route="{{ route('content.menu') }}" class="js-menu w-1/2 max-w-80 rounded-lg justify-center cursor-pointer transition duration-200 ease-in-out hover:scale-[1.02]">
+		<img class="w-full " src="https://cdn.icon-icons.com/icons2/3348/PNG/512/menu_restaurant_coffee_icon_210208.png" alt="Меню">
+		<div class="text-center">Меню</div>
 	</div>
-	<div class="js-order w-1/2 h-40 bg-red-300 rounded-lg">Замовлення</div>
+	<div data-route="" class="js-orders w-1/2 max-w-80 rounded-lg justify-center cursor-pointer transition duration-200 ease-in-out hover:scale-[1.02]">
+		<img class="w-full " src="https://cdn-icons-png.flaticon.com/512/1187/1187436.png" alt="Замовлення">
+		<div class="text-center">Замовити столик</div>
+	</div>
 </div>
 <div class="flex w-full h-80 justify-center">
 	<div class="js-calendar w-full h-80">@include('content.home._elements.calendar')</div>
 </div>
-<div class="js-feedbacks flex flex-col border-2 rounded-lg">
-	@include('content._elements.feedback_field')
-	<div class="border-gray-200 border-b-2 mx-auto w-[95%]"></div>
-	@include('content._elements.feedbacks_block')
-</div>
+@include('content.feedbacks._elements.feedbacks_block')
 <script>
 	$(document).ready(function () {
 		$(".js-menu").on("click", function () {
 			changeMenu($(this).attr("data-route"));
-		})
-	})
+		});
+	});
 </script>

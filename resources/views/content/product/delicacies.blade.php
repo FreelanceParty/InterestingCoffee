@@ -1,5 +1,5 @@
 @php
-	use App\ValuesObject\ProductType;
+	use App\ValuesObject\Constants\ProductType;
 @endphp
 
 @extends('content.product._common', [

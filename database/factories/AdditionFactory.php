@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Addition;
-use App\ValuesObject\AdditionType;
+use App\ValuesObject\Constants\AdditionType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /*** @extends Factory<Addition> */

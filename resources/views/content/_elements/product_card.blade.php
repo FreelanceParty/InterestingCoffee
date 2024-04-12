@@ -1,7 +1,7 @@
 @php
 	use App\Models\User;
 	use Illuminate\Support\Facades\Auth;
-	use App\ValuesObject\ProductType;
+	use App\ValuesObject\Constants\ProductType;
 	/*** @var User $authUser */
 	$authUser = Auth::user();
 @endphp
@@ -11,8 +11,8 @@
 	<div class="flex w-[250px] h-[250px] items-center justify-center border-b-2 border-gray-300 p-3">
 		<img class="w-full h-full rounded-xl" src="{{ $image ?? asset(ProductType::DEFAULT_IMAGE_PATH[$productType]) }}" alt='{{ $title }}'>
 	</div>
-	<div class="flex gap-2 h-20 justify-center text-center bg-amber-100 rounded-b-lg flex-col">
-		<div class="flex justify-center gap-2 w-2/3 justify-between p-2">
+	<div class="flex flex-col h-full gap-2 justify-between text-center bg-amber-100 rounded-b-lg">
+		<div class="flex gap-2 justify-between px-2">
 			<div class="font-semibold text-lg text-nowrap">
 				{{ $title }}
 			</div>
@@ -20,12 +20,12 @@
 				{{ $price }}
 			</div>
 		</div>
-		<div class="flex justify-start">
+		<div class="text-center">
 			{{$description}}
 		</div>
 
 		@if( $authUser !== NULL && $authUser->isAdmin())
-			<div class="flex justify-center gap-2 w-1/2 px-1">
+			<div class="flex justify-center gap-2 p-1">
 				<div data-route="{{ route('popup.product.edit') }}" class="js-product-action w-full h-7 flex justify-center items-center bg-blue-500 rounded-xl cursor-pointer hover:text-amber-50">
 					Змінити
 				</div>

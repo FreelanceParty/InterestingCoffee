@@ -98,7 +98,7 @@ class ContentController extends Controller
 	public function getFeedbacksView(): JsonResponse
 	{
 		return response()->json([
-			'view' => view('content.feedbacks', [
+			'view' => view('content.feedbacks._common', [
 				'feedbacks' => feedbackController()->getAll(),
 			])->render(),
 		]);

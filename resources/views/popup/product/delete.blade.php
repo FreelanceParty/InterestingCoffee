@@ -1,5 +1,5 @@
 @php
-	use App\ValuesObject\InfoType;
+	use App\ValuesObject\Constants\InfoType;
 @endphp
 <div class="flex flex-col gap-2">
 	<div class="p-2">

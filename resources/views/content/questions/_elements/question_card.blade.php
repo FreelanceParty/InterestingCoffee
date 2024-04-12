@@ -1,5 +1,5 @@
 @php
-	use App\ValuesObject\InfoType;
+	use App\ValuesObject\Constants\InfoType;
 @endphp
 <div data-id="{{ $id }}" id="question-card-{{ $id }}" class="js-question-card flex flex-col rounded-xl p-2 gap-2 bg-gray-200 border-2 border-gray-400">
 	<div>{{ $question }}</div>

@@ -1,6 +1,6 @@
 @php
-	use App\ValuesObject\InfoType;
-	use App\ValuesObject\ProductType;
+	use App\ValuesObject\Constants\InfoType;
+	use App\ValuesObject\Constants\ProductType;
 @endphp
 <div class="flex flex-col gap-2">
 	<div class="flex gap-2">
@@ -55,7 +55,7 @@
 		$newPriceInput.on("keyup", checkInputs);
 
 		function checkInputs() {
-			if( $newTitleInput.val().length > 1 && $newPriceInput.val().length > 0) {
+			if ($newTitleInput.val().length > 1 && $newPriceInput.val().length > 0) {
 				$submitButton.prop("disabled", false);
 			} else {
 				$submitButton.prop("disabled", true);
@@ -84,7 +84,7 @@
 					} else if (response.ack === "fail") {
 						popup.showInfo("Помилка", '{{ InfoType::ERROR }}');
 					}
-				},
+				}
 			});
 		});
 	});

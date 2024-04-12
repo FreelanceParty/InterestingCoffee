@@ -1,5 +1,5 @@
 @php
-	use App\ValuesObject\InfoType;
+	use App\ValuesObject\Constants\InfoType;
 @endphp
 
 <script>
@@ -11,14 +11,13 @@
 	;
 
 	function sendRequest(route, data = {}, successFunction = () => {
-	}, failFunction = () => {}, type = "POST") {
+	}) {
 		data["_token"] = "{{ csrf_token() }}";
 		$.ajax({
-			type:    type,
+			type:    "POST",
 			url:     route,
 			data:    data,
-			success: successFunction,
-			fail: failFunction,
+			success: successFunction
 		});
 	}
 

@@ -5,6 +5,7 @@ namespace App\ModelControllers\Repositories;
 use App\Exceptions\QuestionNotFoundException;
 use App\Models\Question;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -38,6 +39,7 @@ class QuestionRepository
 				't1.created_at as date',
 				't2.email as email',
 			)->whereNull('t1.answer')
+			->where('t2.id', '!=', Auth::user()->getId())
 			->get()
 			->toArray();
 	}

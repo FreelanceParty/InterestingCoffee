@@ -1,5 +1,6 @@
 <?php
 
+use App\ValuesObject\Constants\AdditionType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +15,7 @@ return new class extends Migration {
 			$table->string('title');
 			$table->float('price');
 			$table->string('description')->nullable();
-			$table->integer('addition_type_id');
+			$table->integer('addition_type_id')->default(AdditionType::OTHER);
 			$table->timestamp('created_at')->useCurrent();
 			$table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
 		});

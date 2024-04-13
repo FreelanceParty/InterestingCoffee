@@ -8,11 +8,9 @@ use App\Exceptions\QuestionNotFoundException;
 use App\Exceptions\AdditionNotFoundException;
 use App\Exceptions\UserNotFoundException;
 use App\Models\Abstracts\AProduct;
-use App\Models\Addition;
-use App\Models\Coffee;
-use App\Models\Delicacy;
 use App\Models\Feedback;
 use App\Models\Question;
+use App\ValuesObject\Constants\AdditionType;
 use App\ValuesObject\Constants\ProductType;
 use App\ValuesObject\ModelCreator;
 use Illuminate\Http\JsonResponse;
@@ -87,24 +85,29 @@ class ActionController extends Controller
 			'product_type' => 'required|in:' . implode(',', ProductType::ALL),
 			'title'        => 'required|string|max:255',
 			'price'        => 'required|numeric',
-			'description'  => 'nullable|string',
-			'image'        => 'nullable|image',
+			'description'  => 'sometimes|nullable|string',
+			'image'        => 'sometimes|nullable|image',
 		]);
 		if ($validator->fails()) {
-			return response()->json([
-				'ack'    => "fail",
-				'errors' => $validator->errors(),
-			]);
+			return response()->json(['ack' => "fail"]);
 		}
 		$productType = $request->get('product_type');
 		$title       = $request->get('title');
 		$price       = $request->get('price');
 		$description = $request->get('description');
-		$image       = NULL;
-		if ($request->hasFile('image')) {
-			$image = Image::make($request->file('image'));
+		$image       = $request->hasFile('image') ? Image::make($request->file('image')) : NULL;
+		if ($productType === ProductType::ADDITION) {
+			$additionValidator = Validator::make($request->all(), [
+				'addition_type_id' => 'required|in:' . implode(',', AdditionType::ALL),
+			]);
+			if ($additionValidator->fails()) {
+				return response()->json(['ack' => "fail"]);
+			}
+			$additionTypeId = $request->get('addition_type_id');
+			ModelCreator::createAddition($additionTypeId, $title, $price, $description, $image);
+		} else {
+			ModelCreator::createProduct($productType, $title, $price, $description, $image);
 		}
-		ModelCreator::createProduct($productType, $title, $price, $description, $image);
 		return response()->json([
 			'ack' => 'success',
 		]);
@@ -124,40 +127,20 @@ class ActionController extends Controller
 			'product_type' => 'required|in:' . implode(',', ProductType::ALL),
 			'title'        => 'required|string|max:255',
 			'price'        => 'required|numeric',
-			'description'  => 'nullable|string',
-			'image'        => 'nullable|image',
+			'description'  => 'sometimes|nullable|string',
+			'image'        => 'sometimes|nullable|image',
 		]);
 		if ($validator->fails()) {
-			return response()->json([
-				'ack'    => "fail",
-				'errors' => $validator->errors(),
-			]);
+			return response()->json(['ack' => "fail"]);
 		}
 		$productId      = $request->get('product_id');
 		$productType    = $request->get('product_type');
 		$newTitle       = $request->get('title');
 		$newPrice       = $request->get('price');
 		$newDescription = $request->get('description');
-		$newImage       = NULL;
-		if ($request->hasFile('image')) {
-			$newImage = Image::make($request->file('image'));
-		}
-		/*** @var AProduct $product */
-		if ($productType === ProductType::COFFEE) {
-			$product = coffeeController()->findById($productId);
-		}
-		if ($productType === ProductType::DELICACY) {
-			$product = delicacyController()->findById($productId);
-		}
-		if ($productType === ProductType::ADDITION) {
-			$product = additionController()->findById($productId);
-		}
-		$product->setTitle($newTitle);
-		$product->setPrice($newPrice);
-		$product->setDescription($newDescription);
-		if ($newImage != NULL) {
-			$product->setImage($newImage->encode('data-url', 80)->encoded);
-		}
+		$imageChanged   = $request->has('image') || $request->hasFile('image');
+		$newImage       = $request->hasFile('image') ? Image::make($request->file('image')) : NULL;
+		$product        = ModelCreator::updateProduct($productId, $productType, $newTitle, $newPrice, $newDescription, $newImage, $imageChanged);
 		$product->save();
 		return response()->json([
 			'ack' => 'success',

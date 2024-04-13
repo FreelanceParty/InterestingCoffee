@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
 			DelicacySeeder::class,
 			FeedbackSeeder::class,
 			AdditionSeeder::class,
-			UserSeeder::class,
+			//UserSeeder::class,
 		]);
 	}
 }

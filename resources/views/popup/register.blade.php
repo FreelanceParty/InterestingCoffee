@@ -1,43 +1,82 @@
-<form method="POST" action="{{ route('register') }}" class="min-w-80">
-	@csrf
-
-	<!-- Email Address -->
-	<div class="mt-4">
-		<x-input-label for="email" :value="__('Email')"/>
-		<x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username"/>
-		<x-input-error :messages="$errors->get('email')" class="mt-2"/>
+<div class="js-register-form min-w-80">
+	<div class="">
+		<label class="block font-medium text-sm text-gray-700">Email</label>
+		<input id="email" type="email" name="email" class="border block p-1 mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required autofocus
+				autocomplete="username">
 	</div>
 
-	<!-- Password -->
 	<div class="mt-4">
-		<x-input-label for="password" :value="__('Password')"/>
-
-		<x-text-input id="password" class="block mt-1 w-full"
-				type="password"
-				name="password"
-				required autocomplete="new-password"/>
-
-		<x-input-error :messages="$errors->get('password')" class="mt-2"/>
+		<label class="block font-medium text-sm text-gray-700">Пароль</label>
+		<input id="password" type="password" name="password" class="border block p-1 mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required
+				autocomplete="current-password">
 	</div>
 
-	<!-- Confirm Password -->
 	<div class="mt-4">
-		<x-input-label for="password_confirmation" :value="__('Confirm Password')"/>
+		<label class="block font-medium text-sm text-gray-700">Підтвердіть пароль</label>
 
-		<x-text-input id="password_confirmation" class="block mt-1 w-full"
-				type="password"
-				name="password_confirmation" required autocomplete="new-password"/>
-
-		<x-input-error :messages="$errors->get('password_confirmation')" class="mt-2"/>
+		<input id="password_confirmation" type="password" name="password_confirmation"
+				class="border block p-1 mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required
+				autocomplete="new-password">
 	</div>
 
-	<div class="flex items-center justify-end mt-4">
+	<div class="flex items-center justify-between mt-6">
 		<a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-			{{ __('Already registered?') }}
+			Вже зареєстровані?
 		</a>
 
-		<x-primary-button class="ms-4">
-			{{ __('Register') }}
-		</x-primary-button>
+		<div class="flex items-center">
+			<button type="submit" disabled
+					class="disabled:bg-gray-300 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+				Зареєструватись
+			</button>
+		</div>
 	</div>
-</form>
+</div>
+<script>
+	$(document).ready(function () {
+		const
+			$registerForm = $(".js-register-form"),
+			$submitBtn = $registerForm.find("button"),
+			$emailInput = $registerForm.find("#email"),
+			$passwordInput = $registerForm.find("#password"),
+			$confirmPasswordInput = $registerForm.find("#password_confirmation")
+		;
+
+		$emailInput.on("keyup", checkInputs);
+		$emailInput.on("change", checkInputs);
+		$passwordInput.on("keyup", checkInputs);
+		$confirmPasswordInput.on("keyup", checkInputs);
+
+		function checkInputs() {
+			if (validateEmail($emailInput.val()) && $passwordInput.val().length > 0 && $passwordInput.val() === $confirmPasswordInput.val()) {
+				$submitBtn.attr("disabled", false);
+				$emailInput.removeClass("!border-red-400");
+				$passwordInput.removeClass("!border-red-400");
+				$confirmPasswordInput.removeClass("!border-red-400");
+			} else {
+				$submitBtn.attr("disabled", true);
+			}
+		}
+
+		$submitBtn.on("click", function () {
+			sendRequest(
+				'{{ route('register') }}',
+				{
+					email:     $emailInput.val(),
+					password:  $passwordInput.val(),
+					password_confirmation: $confirmPasswordInput.val()
+				},
+				(response) => {
+					if (response.ack === "success") {
+						window.location.reload();
+					} else {
+						$submitBtn.attr("disabled", true);
+						$emailInput.addClass("!border-red-400");
+						$passwordInput.addClass("!border-red-400");
+						$confirmPasswordInput.addClass("!border-red-400");
+					}
+				}
+			);
+		});
+	});
+</script>

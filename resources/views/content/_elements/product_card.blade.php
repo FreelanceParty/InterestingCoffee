@@ -20,7 +20,7 @@
 				{{ $price }}
 			</div>
 		</div>
-		<div class="text-center">
+		<div class="text-center mb-auto px-2 pb-1">
 			{{$description}}
 		</div>
 

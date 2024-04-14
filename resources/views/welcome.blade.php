@@ -19,9 +19,9 @@
 </head>
 <body>
 	@include('popup._common')
-	<div id="js-console" class="flex h-screen">
+	<div id="js-console" class="flex h-screen overflow-hidden">
 		@include('navigation')
-		<div class="flex flex-col justify-between w-full">
+		<div class="flex flex-col justify-between w-full ml-28">
 			<div class="js-content flex flex-col p-4 gap-4 h-full bg-white overflow-y-auto">
 				@include('content.home._common')
 			</div>

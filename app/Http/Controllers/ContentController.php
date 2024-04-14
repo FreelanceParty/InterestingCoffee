@@ -72,7 +72,7 @@ class ContentController extends Controller
 	public function getMenuView(): JsonResponse
 	{
 		return response()->json([
-			'view' => view('content.menu', [
+			'view' => view('content.menu._common', [
 				'coffees'    => coffeeController()->getAll()->take(3),
 				'additions'  => additionController()->getAll()->take(3),
 				'delicacies' => delicacyController()->getAll()->take(3),

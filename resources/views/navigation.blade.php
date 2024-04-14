@@ -1,7 +1,7 @@
 @php
 	use Illuminate\Support\Facades\Auth;
 @endphp
-<div id="js-navbar" class="flex flex-col overflow-y-auto w-28 min-w-24 h-full bg-yellow-300 p-4 gap-5 justify-between text-center">
+<div id="js-navbar" class="fixed flex flex-col w-28 h-screen bg-yellow-300 p-4 gap-5 justify-between text-center">
 	<div class="flex flex-col gap-8 pt-2">
 		<div data-route="{{ route('content.home') }}" class="js-tab cursor-pointer items-center flex flex-col gap-2">
 			<i class="fa-sharp fa-solid fa-house fa-xl"></i>

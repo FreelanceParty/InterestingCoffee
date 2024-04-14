@@ -7,7 +7,7 @@
 @endphp
 
 <div id="{{ $productType }}-{{ $id }}"
-		class="js-product-card flex flex-col w-[250px] border-2 border-gray-300 rounded-lg shadow-xl transition duration-200 ease-in-out hover:scale-105 hover:shadow-2xl">
+		class="js-product-card flex flex-col w-[250px] border-2 border-gray-300 rounded-lg shadow-xl transition duration-200 ease-in-out hover:scale-105 hover:shadow-2xl {{ $containerClasses ?? '' }}">
 	<div class="flex w-[250px] h-[250px] items-center justify-center border-b-2 border-gray-300 p-3">
 		<img class="w-full h-full rounded-xl" src="{{ $image ?? asset(ProductType::DEFAULT_IMAGE_PATH[$productType]) }}" alt='{{ $title }}'>
 	</div>

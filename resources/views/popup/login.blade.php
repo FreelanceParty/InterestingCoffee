@@ -40,7 +40,7 @@
 		$passwordInput.on("keyup", checkInputs);
 
 		function checkInputs() {
-			if (validateEmail($emailInput.val()) && $passwordInput.val().length > 0) {
+			if (isValidEmail($emailInput.val()) && $passwordInput.val().length > 0) {
 				$submitBtn.attr("disabled", false);
 				$emailInput.removeClass("!border-red-400");
 				$passwordInput.removeClass("!border-red-400");

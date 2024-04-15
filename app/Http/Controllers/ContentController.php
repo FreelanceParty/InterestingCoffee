@@ -124,4 +124,17 @@ class ContentController extends Controller
 			])->render(),
 		]);
 	}
+
+	/***
+	 * @return JsonResponse
+	 * @throws Throwable
+	 */
+	public function getOrdersView(): JsonResponse
+	{
+		return response()->json([
+			'view' => view('content.orders._common', [
+				'orders' => orderController()->getAll(),
+			])->render(),
+		]);
+	}
 }

@@ -5,6 +5,7 @@ namespace App\ModelControllers\Repositories;
 use App\Exceptions\AdditionNotFoundException;
 use App\Models\Addition;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 /***
  * Class AdditionRepository
@@ -27,20 +28,6 @@ class AdditionRepository
 	}
 
 	/***
-	 * @param string $title
-	 * @return Addition
-	 * @throws AdditionNotFoundException
-	 */
-	public function findByTitle(string $title): Addition
-	{
-		$addition = Addition::where('title', '=', $title)->first();
-		if ($addition === NULL) {
-			throw new AdditionNotFoundException;
-		}
-		return $addition;
-	}
-
-	/***
 	 * @param int $addition_type_id
 	 * @return Collection|Addition[]
 	 * @throws AdditionNotFoundException
@@ -54,5 +41,23 @@ class AdditionRepository
 	public function getAll(): Collection
 	{
 		return Addition::all();
+	}
+
+	/**
+	 * @param array $ids
+	 * @return array
+	 */
+	public function getTitlesArrayByIds(array $ids): array
+	{
+		$additions = DB::table('additions')
+			->select('id', 'title')
+			->whereIn('id', $ids)
+			->pluck('id', 'title')
+			->toArray();
+		$result = [];
+		foreach ($additions as $key => $value) {
+			$result[$key] = array_count_values($ids)[$value];
+		}
+		return $result;
 	}
 }

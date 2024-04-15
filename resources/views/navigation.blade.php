@@ -52,6 +52,10 @@
 				Реєстрація
 			</div>
 		@else
+			<div data-route="{{ route('content.orders') }}" class="js-tab cursor-pointer items-center flex flex-col gap-2">
+				<i class="fa-solid fa-chair fa-xl"></i>
+				Замовлення
+			</div>
 			<div data-route="{{ route('content.questions') }}" class="js-tab cursor-pointer items-center flex flex-col gap-2">
 				<i class="fa-solid fa-question fa-xl"></i>
 				Запитання

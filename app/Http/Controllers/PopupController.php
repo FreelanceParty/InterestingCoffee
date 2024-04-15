@@ -83,7 +83,7 @@ class PopupController extends Controller
 		}
 		return response()->json([
 			'headerText' => "Оновлення продукту",
-			'html' => view('popup.product.edit', [
+			'html'       => view('popup.product.edit', [
 				'product' => $product,
 			])->render(),
 		]);
@@ -97,7 +97,7 @@ class PopupController extends Controller
 	{
 		return response()->json([
 			'headerText' => "Додавання продукту",
-			'html' => view('popup.product.add')->render(),
+			'html'       => view('popup.product.add')->render(),
 		]);
 	}
 
@@ -125,11 +125,23 @@ class PopupController extends Controller
 		}
 		return response()->json([
 			'headerText' => "Видалення продукту",
-			'html' => view('popup.product.delete', [
+			'html'       => view('popup.product.delete', [
 				'id'          => $productId,
 				'productType' => $productType,
 				'productName' => $product->getTitle(),
 			])->render(),
+		]);
+	}
+
+	/**
+	 * @return JsonResponse
+	 * @throws Throwable
+	 */
+	public function getCreateOrderPopup(): JsonResponse
+	{
+		return response()->json([
+			'headerText' => "Замовлення столика",
+			'html'       => view('popup.create_order')->render(),
 		]);
 	}
 }

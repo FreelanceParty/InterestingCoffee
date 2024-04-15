@@ -48,7 +48,7 @@
 		$confirmPasswordInput.on("keyup", checkInputs);
 
 		function checkInputs() {
-			if (validateEmail($emailInput.val()) && $passwordInput.val().length > 0 && $passwordInput.val() === $confirmPasswordInput.val()) {
+			if (isValidEmail($emailInput.val()) && $passwordInput.val().length > 0 && $passwordInput.val() === $confirmPasswordInput.val()) {
 				$submitBtn.attr("disabled", false);
 				$emailInput.removeClass("!border-red-400");
 				$passwordInput.removeClass("!border-red-400");
@@ -62,8 +62,8 @@
 			sendRequest(
 				'{{ route('register') }}',
 				{
-					email:     $emailInput.val(),
-					password:  $passwordInput.val(),
+					email:                 $emailInput.val(),
+					password:              $passwordInput.val(),
 					password_confirmation: $confirmPasswordInput.val()
 				},
 				(response) => {

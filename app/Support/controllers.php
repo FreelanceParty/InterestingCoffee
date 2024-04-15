@@ -3,6 +3,7 @@
 use App\ModelControllers\CoffeeController;
 use App\ModelControllers\DelicacyController;
 use App\ModelControllers\FeedbackController;
+use App\ModelControllers\OrderController;
 use App\ModelControllers\QuestionController;
 use App\ModelControllers\AdditionController;
 use App\ModelControllers\UserController;
@@ -47,5 +48,12 @@ if ( ! function_exists('questionController')) {
 	function questionController(): QuestionController
 	{
 		return app('QuestionController');
+	}
+}
+if ( ! function_exists('orderController')) {
+	/*** @return OrderController */
+	function orderController(): OrderController
+	{
+		return app('OrderController');
 	}
 }

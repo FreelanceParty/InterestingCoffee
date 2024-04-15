@@ -13,10 +13,12 @@ use App\Models\Question;
 use App\ValuesObject\Constants\AdditionType;
 use App\ValuesObject\Constants\ProductType;
 use App\ValuesObject\ModelCreator;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
+use JsonException;
 
 /**
  * Class ActionController
@@ -169,6 +171,33 @@ class ActionController extends Controller
 			$product = additionController()->findById($productId);
 		}
 		$product->delete();
+		return response()->json([
+			'ack' => 'success',
+		]);
+	}
+
+	/**
+	 * @param Request $request
+	 * @return JsonResponse
+	 * @throws JsonException
+	 */
+	public function createOrder(Request $request): JsonResponse
+	{
+		$dateTime      = Carbon::createFromTimeString($request->get('date_time'));
+		$coffeesIds    = $request->get('coffees_ids', []);
+		$additionsIds  = $request->get('additions_ids', []);
+		$delicaciesIds = $request->get('delicacies_ids', []);
+		$coffees       = coffeeController()->getTitlesArrayByIds($coffeesIds);
+		$additions     = additionController()->getTitlesArrayByIds($additionsIds);
+		$delicacies    = delicacyController()->getTitlesArrayByIds($delicaciesIds);
+		ModelCreator::createOrder(
+			$request->get('user_name'),
+			$request->get('phone_number'),
+			$request->get('seats_count'),
+			$dateTime,
+			$request->get('total_price'),
+			array_merge($coffees, $additions, $delicacies),
+		);
 		return response()->json([
 			'ack' => 'success',
 		]);

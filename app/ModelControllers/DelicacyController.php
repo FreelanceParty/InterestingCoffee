@@ -6,12 +6,13 @@ use App\Exceptions\DelicacyNotFoundException;
 use App\ModelControllers\Repositories\DelicacyRepository;
 use App\Models\Delicacy;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * Class DelicacyController
+ * @package App\ModelControllers
+ */
 class DelicacyController
 {
-	use HasFactory;
-
 	/*** @var DelicacyRepository */
 	private DelicacyRepository $repo;
 
@@ -31,19 +32,18 @@ class DelicacyController
 		return $this->repo->findById($id);
 	}
 
-	/***
-	 * @param string $title
-	 * @return Delicacy
-	 * @throws DelicacyNotFoundException
-	 */
-	public function findByTitle(string $title): Delicacy
-	{
-		return $this->repo->findByTitle($title);
-	}
-
 	/*** @return Collection */
 	public function getAll(): Collection
 	{
 		return $this->repo->getAll();
+	}
+
+	/**
+	 * @param array $ids
+	 * @return array
+	 */
+	public function getTitlesArrayByIds(array $ids): array
+	{
+		return $this->repo->getTitlesArrayByIds($ids);
 	}
 }

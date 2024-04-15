@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\ModelControllers\CoffeeController;
 use App\ModelControllers\DelicacyController;
 use App\ModelControllers\FeedbackController;
+use App\ModelControllers\OrderController;
 use App\ModelControllers\QuestionController;
 use App\ModelControllers\AdditionController;
 use App\ModelControllers\UserController;
@@ -31,5 +32,7 @@ class ControllerServiceProvider extends ServiceProvider
 		$this->app->alias(FeedbackController::class, "FeedbackController");
 		$this->app->singleton(QuestionController::class);
 		$this->app->alias(QuestionController::class, "QuestionController");
+		$this->app->singleton(OrderController::class);
+		$this->app->alias(OrderController::class, "OrderController");
 	}
 }

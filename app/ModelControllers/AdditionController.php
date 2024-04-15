@@ -6,7 +6,6 @@ use App\Exceptions\AdditionNotFoundException;
 use App\ModelControllers\Repositories\AdditionRepository;
 use App\Models\Addition;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Class AdditionController
@@ -14,8 +13,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class AdditionController
 {
-	use HasFactory;
-
 	/*** @var AdditionRepository */
 	private AdditionRepository $repo;
 
@@ -36,16 +33,6 @@ class AdditionController
 	}
 
 	/***
-	 * @param string $title
-	 * @return Addition
-	 * @throws AdditionNotFoundException
-	 */
-	public function findByTitle(string $title): Addition
-	{
-		return $this->repo->findByTitle($title);
-	}
-
-	/***
 	 * @param int $addition_type_id
 	 * @return Collection|Addition[]
 	 * @throws AdditionNotFoundException
@@ -59,5 +46,14 @@ class AdditionController
 	public function getAll(): Collection
 	{
 		return $this->repo->getAll();
+	}
+
+	/**
+	 * @param array $ids
+	 * @return array
+	 */
+	public function getTitlesArrayByIds(array $ids): array
+	{
+		return $this->repo->getTitlesArrayByIds($ids);
 	}
 }

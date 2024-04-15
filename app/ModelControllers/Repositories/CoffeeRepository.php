@@ -5,6 +5,7 @@ namespace App\ModelControllers\Repositories;
 use App\Exceptions\CoffeeNotFoundException;
 use App\Models\Coffee;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class CoffeeRepository
@@ -26,23 +27,27 @@ class CoffeeRepository
 		return $coffee;
 	}
 
-	/**
-	 * @param string $title
-	 * @return Coffee
-	 * @throws CoffeeNotFoundException
-	 */
-	public function findByTitle(string $title): Coffee
-	{
-		$coffee = Coffee::where('title', '=', $title)->first();
-		if ($coffee === NULL) {
-			throw new CoffeeNotFoundException;
-		}
-		return $coffee;
-	}
-
 	/*** @return Collection */
 	public function getAll(): Collection
 	{
 		return Coffee::all();
+	}
+
+	/**
+	 * @param array $ids
+	 * @return array
+	 */
+	public function getTitlesArrayByIds(array $ids): array
+	{
+		$coffees = DB::table('coffees')
+			->select('id', 'title')
+			->whereIn('id', $ids)
+			->pluck('id', 'title')
+			->toArray();
+		$result  = [];
+		foreach ($coffees as $key => $value) {
+			$result[$key] = array_count_values($ids)[$value];
+		}
+		return $result;
 	}
 }

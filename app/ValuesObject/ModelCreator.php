@@ -9,8 +9,11 @@ use App\Models\Abstracts\AProduct;
 use App\Models\Addition;
 use App\Models\Coffee;
 use App\Models\Delicacy;
+use App\Models\Order;
 use App\ValuesObject\Constants\ProductType;
+use Carbon\Carbon;
 use Intervention\Image\Image;
+use JsonException;
 
 /**
  * Class ModelCreator
@@ -97,5 +100,28 @@ class ModelCreator
 			$product->setImage($image?->encode('data-url', 80)->encoded);
 		}
 		return $product;
+	}
+
+	/**
+	 * @param string     $userName
+	 * @param string     $phoneNumber
+	 * @param int        $seatsCount
+	 * @param Carbon     $dateTime
+	 * @param float      $totalPrice
+	 * @param array|NULL $productsList
+	 * @return Order
+	 * @throws JsonException
+	 */
+	public static function createOrder(string $userName, string $phoneNumber, int $seatsCount, Carbon $dateTime, float $totalPrice, ?array $productsList = NULL): Order
+	{
+		$order = new Order();
+		$order->setUserName($userName);
+		$order->setPhoneNumber($phoneNumber);
+		$order->setSeatsCount($seatsCount);
+		$order->setDateTime($dateTime);
+		$order->setTotalPrice($totalPrice);
+		$order->setProductsList($productsList);
+		$order->save();
+		return $order;
 	}
 }

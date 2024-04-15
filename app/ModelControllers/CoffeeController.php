@@ -32,19 +32,18 @@ class CoffeeController
 		return $this->repo->findById($id);
 	}
 
-	/**
-	 * @param string $title
-	 * @return Coffee
-	 * @throws CoffeeNotFoundException
-	 */
-	public function findByTitle(string $title): Coffee
-	{
-		return $this->repo->findByTitle($title);
-	}
-
 	/*** @return Collection */
 	public function getAll(): Collection
 	{
 		return $this->repo->getAll();
+	}
+
+	/**
+	 * @param array $ids
+	 * @return array
+	 */
+	public function getTitlesArrayByIds(array $ids): array
+	{
+		return $this->repo->getTitlesArrayByIds($ids);
 	}
 }

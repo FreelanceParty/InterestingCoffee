@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Addition;
 use Illuminate\Database\Seeder;
 
 /**
@@ -14,8 +13,6 @@ class AdditionSeeder extends Seeder
 	/*** Seed the application's database. */
 	public function run(): void
 	{
-		Addition::factory()
-			->count(15)
-			->create();
+		CustomSeeder::seedAdditions();
 	}
 }

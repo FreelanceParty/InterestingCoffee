@@ -9,6 +9,8 @@ use App\Models\Abstracts\AProduct;
 use App\Models\Addition;
 use App\Models\Coffee;
 use App\Models\Delicacy;
+use App\Models\Feedback;
+use App\Models\Question;
 use App\Models\Order;
 use App\ValuesObject\Constants\ProductType;
 use Carbon\Carbon;
@@ -99,7 +101,38 @@ class ModelCreator
 		if ($imageChanged) {
 			$product->setImage($image?->encode('data-url', 80)->encoded);
 		}
+		$product->save();
 		return $product;
+	}
+
+	/**
+	 * @param string $userName
+	 * @param string $text
+	 * @return Feedback
+	 */
+	public static function createFeedback(string $userName, string $text): Feedback
+	{
+		$feedback = new Feedback();
+		$feedback->setUserName($userName);
+		$feedback->setText($text);
+		$feedback->save();
+		return $feedback;
+	}
+
+	/**
+	 * @param int         $userId
+	 * @param string      $text
+	 * @param string|NULL $answer
+	 * @return Question
+	 */
+	public static function createQuestion(int $userId, string $text, ?string $answer = NULL): Question
+	{
+		$question = new Question();
+		$question->setUserId($userId);
+		$question->setText($text);
+		$question->setAnswer($answer);
+		$question->save();
+		return $question;
 	}
 
 	/**

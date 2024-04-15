@@ -6,10 +6,7 @@ use App\Exceptions\CoffeeNotFoundException;
 use App\Exceptions\DelicacyNotFoundException;
 use App\Exceptions\QuestionNotFoundException;
 use App\Exceptions\AdditionNotFoundException;
-use App\Exceptions\UserNotFoundException;
 use App\Models\Abstracts\AProduct;
-use App\Models\Feedback;
-use App\Models\Question;
 use App\ValuesObject\Constants\AdditionType;
 use App\ValuesObject\Constants\ProductType;
 use App\ValuesObject\ModelCreator;
@@ -32,12 +29,7 @@ class ActionController extends Controller
 	 */
 	public function sendFeedback(Request $request): JsonResponse
 	{
-		$userName = $request->get('user_name');
-		$text     = $request->get('text');
-		$feedback = new Feedback();
-		$feedback->setUserName($userName);
-		$feedback->setText($text);
-		$feedback->save();
+		ModelCreator::createFeedback($request->get('user_name'), $request->get('text'));
 		return response()->json([
 			'ack' => 'success',
 		]);
@@ -46,16 +38,10 @@ class ActionController extends Controller
 	/***
 	 * @param Request $request
 	 * @return JsonResponse
-	 * @throws UserNotFoundException
 	 */
 	public function sendQuestion(Request $request): JsonResponse
 	{
-		$user     = userController()->findById($request->get('user_id'));
-		$text     = $request->get('text');
-		$question = new Question();
-		$question->setUserId($user->getId());
-		$question->setText($text);
-		$question->save();
+		ModelCreator::createQuestion($request->get('user_id'), $request->get('text'));
 		return response()->json([
 			'ack' => 'success',
 		]);

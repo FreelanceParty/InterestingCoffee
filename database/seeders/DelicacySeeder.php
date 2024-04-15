@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Delicacy;
 use Illuminate\Database\Seeder;
 
 /**
@@ -14,8 +13,6 @@ class DelicacySeeder extends Seeder
 	/*** Seed the application's database. */
 	public function run(): void
 	{
-		Delicacy::factory()
-			->count(15)
-			->create();
+		CustomSeeder::seedDelicacies();
 	}
 }

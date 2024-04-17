@@ -169,6 +169,17 @@ class ActionController extends Controller
 	 */
 	public function createOrder(Request $request): JsonResponse
 	{
+		$validator = Validator::make($request->all(), [
+			'user_name'    => 'required|max:40',
+			'phone_number' => 'required|regex:/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im',
+			'seats_count'  => 'required|max:1',
+			'date_time'    => 'required',
+			'total_price'  => 'required|numeric',
+		]);
+		if ($validator->fails()) {
+			return response()->json(['ack' => "fail"]);
+		}
+
 		$dateTime      = Carbon::createFromTimeString($request->get('date_time'));
 		$coffeesIds    = $request->get('coffees_ids', []);
 		$additionsIds  = $request->get('additions_ids', []);

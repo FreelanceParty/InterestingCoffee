@@ -87,7 +87,7 @@ class ContentController extends Controller
 	public function getStatisticsView(): JsonResponse
 	{
 		return response()->json([
-			'view' => view('content.statistics')->render(),
+			'view' => view('content.statistics._common')->render(),
 		]);
 	}
 

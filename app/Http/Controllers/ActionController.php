@@ -6,9 +6,11 @@ use App\Exceptions\CoffeeNotFoundException;
 use App\Exceptions\DelicacyNotFoundException;
 use App\Exceptions\QuestionNotFoundException;
 use App\Exceptions\AdditionNotFoundException;
+use App\Exceptions\StatisticNotFoundException;
 use App\Models\Abstracts\AProduct;
 use App\ValuesObject\Constants\AdditionType;
 use App\ValuesObject\Constants\ProductType;
+use App\ValuesObject\Constants\StatisticCategories;
 use App\ValuesObject\ModelCreator;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -179,7 +181,6 @@ class ActionController extends Controller
 		if ($validator->fails()) {
 			return response()->json(['ack' => "fail"]);
 		}
-
 		$dateTime      = Carbon::createFromTimeString($request->get('date_time'));
 		$coffeesIds    = $request->get('coffees_ids', []);
 		$additionsIds  = $request->get('additions_ids', []);
@@ -195,6 +196,13 @@ class ActionController extends Controller
 			$request->get('total_price'),
 			array_merge($coffees, $additions, $delicacies),
 		);
+		try {
+			statisticController()->findByCategory(StatisticCategories::COFFEES)->updateValues($coffees);
+			statisticController()->findByCategory(StatisticCategories::ADDITIONS)->updateValues($additions);
+			statisticController()->findByCategory(StatisticCategories::DELICACIES)->updateValues($delicacies);
+			statisticController()->findByCategory(StatisticCategories::SEATS)->updateValueByKey($request->get('seats_count'), 1);
+		} catch (StatisticNotFoundException) {
+		}
 		return response()->json([
 			'ack' => 'success',
 		]);

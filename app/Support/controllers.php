@@ -6,6 +6,7 @@ use App\ModelControllers\FeedbackController;
 use App\ModelControllers\OrderController;
 use App\ModelControllers\QuestionController;
 use App\ModelControllers\AdditionController;
+use App\ModelControllers\StatisticController;
 use App\ModelControllers\UserController;
 
 if ( ! function_exists('coffeeController')) {
@@ -55,5 +56,12 @@ if ( ! function_exists('orderController')) {
 	function orderController(): OrderController
 	{
 		return app('OrderController');
+	}
+}
+if ( ! function_exists('statisticController')) {
+	/*** @return StatisticController */
+	function statisticController(): StatisticController
+	{
+		return app('StatisticController');
 	}
 }

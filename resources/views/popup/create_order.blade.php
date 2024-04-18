@@ -37,12 +37,14 @@
 		<div class="flex flex-col gap-2 justify-between w-3/5 border-2 p-6 rounded-md shadow-xl">
 			<div class="flex flex-col gap-6">
 				<div class="border-2 rounded-md p-2 shadow-md overflow-y-auto max-h-80">
-					<div class="js-order-header p-4">Замовлення:</div>
-					<div class="js-order-coffees-header p-4 hidden">Кава:</div>
-					<div class="js-coffees-list flex flex-wrap gap-3 border-b-2 p-2">
+					<div class="js-order-header px-4 py-2 font-medium text-xl">Замовлення:</div>
+					<div class="js-order-coffees-container flex flex-col hidden">
+						<div class="px-4 py-2">Кава:</div>
+						<div class="js-coffees-list flex flex-wrap gap-1 border-b-2 px-2 pb-3"></div>
 					</div>
-					<div class="js-order-delicacies-header p-4 hidden">Смаколики:</div>
-					<div class="js-delicacies-list flex flex-wrap gap-1 p-2">
+					<div class="js-order-delicacies-container flex flex-col hidden">
+						<div class="px-4 py-2">Смаколики:</div>
+						<div class="js-delicacies-list flex flex-wrap gap-1 px-2 py-1"></div>
 					</div>
 				</div>
 				<div class="flex flex-col gap-2">
@@ -83,8 +85,10 @@
 			$userNameInput = $popupContent.find(".js-user-name-input"),
 			$phoneNumberInput = $popupContent.find(".js-phone-number-input"),
 			$dateInput = $popupContent.find(".js-order-date"),
-			$coffeesListContainer = $popupContent.find(".js-coffees-list"),
-			$delicaciesListContainer = $popupContent.find(".js-delicacies-list"),
+			$coffeeOrderContainer = $popupContent.find(".js-order-coffees-container"),
+			$delicacyOrderContainer = $popupContent.find(".js-order-delicacies-container"),
+			$coffeesList = $popupContent.find(".js-coffees-list"),
+			$delicaciesList = $popupContent.find(".js-delicacies-list"),
 			$coffeeSelect = $popupContent.find(".js-coffee-select"),
 			$additionSelect = $popupContent.find(".js-addition-select"),
 			$delicacySelect = $popupContent.find(".js-delicacy-select"),
@@ -92,9 +96,7 @@
 			$addDelicacyBtn = $popupContent.find(".js-add-delicacy"),
 			$pricePlace = $popupContent.find(".js-price-place"),
 			$submitBtn = $popupContent.find(".js-submit"),
-			dateTimeNow = new Date().toISOString().slice(0, 16),
-			$coffeeLabel = $popupContent.find(".js-order-coffees-header"),
-			$delicacyLabel = $popupContent.find(".js-order-delicacies-header")
+			dateTimeNow = new Date().toISOString().slice(0, 16)
 		;
 
 		$pricePlace.text($seatsCountInput.find("option:selected").data("price"));
@@ -144,15 +146,15 @@
 			const $coffeeBadges = $popupContent.find(".js-coffee-badge");
 			const $delicacyBadges = $popupContent.find(".js-delicacy-badge");
 
-			if($coffeeBadges.length > 0 && $coffeeLabel.hasClass("hidden")) {
-				$coffeeLabel.removeClass("hidden");
-			} else if($coffeeBadges.length === 0 && !$coffeeLabel.hasClass("hidden")) {
-				$coffeeLabel.addClass("hidden");
+			if($coffeeBadges.length > 0 && $coffeeOrderContainer.hasClass("hidden")) {
+				$coffeeOrderContainer.removeClass("hidden");
+			} else if($coffeeBadges.length === 0 && !$coffeeOrderContainer.hasClass("hidden")) {
+				$coffeeOrderContainer.addClass("hidden");
 			}
-			if($delicacyBadges.length > 0 && $delicacyLabel.hasClass("hidden")) {
-				$delicacyLabel.removeClass("hidden");
-			} else if($delicacyBadges.length === 0 && !$delicacyLabel.hasClass("hidden")) {
-				$delicacyLabel.addClass("hidden");
+			if($delicacyBadges.length > 0 && $delicacyOrderContainer.hasClass("hidden")) {
+				$delicacyOrderContainer.removeClass("hidden");
+			} else if($delicacyBadges.length === 0 && !$delicacyOrderContainer.hasClass("hidden")) {
+				$delicacyOrderContainer.addClass("hidden");
 			}
 		}
 
@@ -233,7 +235,7 @@
 				text:               `\'${coffeeTitle}\' з \'${additionTitle}\'`
 			});
 			badge.append("<div class='js-delete-badge text-center rounded-xl flex cursor-pointer ml-auto'>X</div>");
-			$coffeesListContainer.append(badge);
+			$coffeesList.append(badge);
 			updateTotalPrice();
 		}
 
@@ -245,7 +247,7 @@
 				text:               `\'${delicacyTitle}\'`
 			});
 			badge.append("<div class='js-delete-badge text-center rounded-xl flex cursor-pointer ml-auto'>X</div>");
-			$delicaciesListContainer.append(badge);
+			$delicaciesList.append(badge);
 			updateTotalPrice();
 		}
 	});

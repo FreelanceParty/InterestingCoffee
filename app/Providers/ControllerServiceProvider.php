@@ -8,6 +8,7 @@ use App\ModelControllers\FeedbackController;
 use App\ModelControllers\OrderController;
 use App\ModelControllers\QuestionController;
 use App\ModelControllers\AdditionController;
+use App\ModelControllers\StatisticController;
 use App\ModelControllers\UserController;
 use Illuminate\Support\ServiceProvider;
 
@@ -34,5 +35,7 @@ class ControllerServiceProvider extends ServiceProvider
 		$this->app->alias(QuestionController::class, "QuestionController");
 		$this->app->singleton(OrderController::class);
 		$this->app->alias(OrderController::class, "OrderController");
+		$this->app->singleton(StatisticController::class);
+		$this->app->alias(StatisticController::class, "StatisticController");
 	}
 }

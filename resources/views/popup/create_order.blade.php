@@ -38,10 +38,10 @@
 			<div class="flex flex-col gap-6">
 				<div class="border-2 rounded-md p-2 shadow-md overflow-y-auto max-h-80">
 					<div class="js-order-header p-4">Замовлення:</div>
-					<div class="js-order-coffees-header p-4">Кава:</div>
+					<div class="js-order-coffees-header p-4 hidden">Кава:</div>
 					<div class="js-coffees-list flex flex-wrap gap-3 border-b-2 p-2">
 					</div>
-					<div class="js-order-coffees-header p-4">Смаколики:</div>
+					<div class="js-order-delicacies-header p-4 hidden">Смаколики:</div>
 					<div class="js-delicacies-list flex flex-wrap gap-1 p-2">
 					</div>
 				</div>
@@ -50,13 +50,13 @@
 					<div class="flex gap-2">
 						<select class="js-coffee-select px-2 border-2 border-gray-200 rounded-lg text-lg hover:scale-105 transition">
 							@foreach( coffeeController()->getAll() as $coffee )
-								<option data-id="{{ $coffee->getId() }}" data-price="{{ $coffee->getPrice() }}">{{ $coffee->getTitle() }}, {{$coffee->getPrice()}}</option>
+								<option data-id="{{ $coffee->getId() }}" data-price="{{ $coffee->getPrice() }}">{{ $coffee->getTitle() }}, {{$coffee->getPrice()}}$</option>
 							@endforeach
 						</select>
 						<div class="flex gap-2">
 							<select class="js-addition-select px-2 border-2 border-gray-200 rounded-lg text-lg hover:scale-105 transition">
 								@foreach( additionController()->getAll() as $addition )
-									<option data-id="{{ $addition->getId() }}" data-price="{{ $addition->getPrice() }}">{{ $addition->getTitle() }}, {{$addition->getPrice()}}</option>
+									<option data-id="{{ $addition->getId() }}" data-price="{{ $addition->getPrice() }}">{{ $addition->getTitle() }}, {{$addition->getPrice()}}$</option>
 								@endforeach
 							</select>
 							<button class="js-add-coffee bg-blue-700 text-white px-3 py-1 rounded-xl disabled:bg-gray-300 hover:scale-105 transition">+</button>
@@ -65,7 +65,7 @@
 					<div class="flex gap-2">
 						<select class="js-delicacy-select px-2 border-2 border-gray-200 rounded-lg text-lg hover:scale-105 transition">
 							@foreach( delicacyController()->getAll() as $delicacy )
-								<option data-id="{{ $delicacy->getId() }}" data-price="{{ $delicacy->getPrice() }}">{{ $delicacy->getTitle() }}, {{$delicacy->getPrice()}}</option>
+								<option data-id="{{ $delicacy->getId() }}" data-price="{{ $delicacy->getPrice() }}">{{ $delicacy->getTitle() }}, {{$delicacy->getPrice()}}$</option>
 							@endforeach
 						</select>
 						<button class="js-add-delicacy bg-blue-700 text-white px-3 py-1 rounded-xl disabled:bg-gray-300">+</button>
@@ -92,7 +92,9 @@
 			$addDelicacyBtn = $popupContent.find(".js-add-delicacy"),
 			$pricePlace = $popupContent.find(".js-price-place"),
 			$submitBtn = $popupContent.find(".js-submit"),
-			dateTimeNow = new Date().toISOString().slice(0, 16)
+			dateTimeNow = new Date().toISOString().slice(0, 16),
+			$coffeeLabel = $popupContent.find(".js-order-coffees-header"),
+			$delicacyLabel = $popupContent.find(".js-order-delicacies-header")
 		;
 
 		$pricePlace.text($seatsCountInput.find("option:selected").data("price"));
@@ -118,7 +120,9 @@
 			const $deleteBadgeButtons = $popupContent.find(".js-delete-badge");
 			$deleteBadgeButtons.on("click", function () {
 				$(this).closest(".js-product-badge").remove();
+				switchHeadersVisibility();
 			});
+			switchHeadersVisibility();
 		});
 
 		$addDelicacyBtn.on("click", function () {
@@ -131,8 +135,26 @@
 			const $deleteBadgeButtons = $popupContent.find(".js-delete-badge");
 			$deleteBadgeButtons.on("click", function () {
 				$(this).closest(".js-product-badge").remove();
+				switchHeadersVisibility();
 			});
+			switchHeadersVisibility();
 		});
+
+		function switchHeadersVisibility() {
+			const $coffeeBadges = $popupContent.find(".js-coffee-badge");
+			const $delicacyBadges = $popupContent.find(".js-delicacy-badge");
+
+			if($coffeeBadges.length > 0 && $coffeeLabel.hasClass("hidden")) {
+				$coffeeLabel.removeClass("hidden");
+			} else if($coffeeBadges.length === 0 && !$coffeeLabel.hasClass("hidden")) {
+				$coffeeLabel.addClass("hidden");
+			}
+			if($delicacyBadges.length > 0 && $delicacyLabel.hasClass("hidden")) {
+				$delicacyLabel.removeClass("hidden");
+			} else if($delicacyBadges.length === 0 && !$delicacyLabel.hasClass("hidden")) {
+				$delicacyLabel.addClass("hidden");
+			}
+		}
 
 		$seatsCountInput.on("change", function () {
 			updateTotalPrice();
@@ -204,7 +226,7 @@
 
 		function addCoffeeBadge(coffeeId, coffeeTitle, coffeePrice, additionId, additionTitle, additionPrice) {
 			let badge = $("<div>", {
-				"class":            "js-product-badge flex px-3 py-1 text-center rounded-xl gap-4 bg-amber-100 w-fit",
+				"class":            "js-product-badge js-coffee-badge flex px-3 py-1 text-center rounded-xl gap-4 bg-amber-100 w-fit",
 				"data-price":       coffeePrice + additionPrice,
 				"data-coffee-id":   coffeeId,
 				"data-addition-id": additionId,
@@ -217,11 +239,12 @@
 
 		function addDelicacyBadge(delicacyId, delicacyTitle, delicacyPrice) {
 			let badge = $("<div>", {
-				"class":            "js-product-badge px-3 py-1 text-center rounded-xl bg-blue-100 w-fit",
+				"class":            "js-product-badge js-delicacy-badge flex px-3 py-1 text-center rounded-xl gap-4 bg-blue-100 w-fit",
 				"data-price":       delicacyPrice,
 				"data-delicacy-id": delicacyId,
 				text:               `\'${delicacyTitle}\'`
 			});
+			badge.append("<div class='js-delete-badge text-center rounded-xl flex cursor-pointer ml-auto'>X</div>");
 			$delicaciesListContainer.append(badge);
 			updateTotalPrice();
 		}

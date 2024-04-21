@@ -3,7 +3,7 @@
 @elseif( empty($questions) )
 	<h2>Запитань поки що немає!</h2>
 @endif
-<div class="flex flex-wrap gap-2 justify-center">
+<div class="flex flex-wrap gap-2">
 	@foreach( $questions as $question )
 		@include('content.questions._elements.question_card', [
 			'id' => $question->id,

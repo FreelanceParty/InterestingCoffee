@@ -8,7 +8,7 @@
 @endphp
 <div class="js-question-form flex flex-col p-4 rounded-lg gap-2">
 	<textarea placeholder="Задайте питання" class="rounded-lg border-2 border-gray-300 p-1"></textarea>
-	<button data-route="{{ route('action.send-question') }}" class="bg-blue-700 text-white px-3 py-1 rounded-xl ml-auto">Надіслати</button>
+	<button data-route="{{ route('action.question.send') }}" class="bg-blue-700 text-white px-3 py-1 rounded-xl ml-auto">Надіслати</button>
 </div>
 <script>
 	$(document).ready(function () {

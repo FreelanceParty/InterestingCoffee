@@ -7,19 +7,41 @@
 		<div>{{ $userEmail }}</div>
 		<div class="ml-auto text-xs">{{ $date }}</div>
 	</div>
+	@if( empty($answer) && ! $authUser->isAdmin() )
+		<div class="flex gap-2 mt-auto">
+			<button data-route="{{ route('popup.question.edit') }}" class="js-action-btn bg-blue-700 text-white px-3 py-1 rounded-xl ml-auto">Змінити</button>
+			<button data-route="{{ route('popup.question.delete') }}" class="js-action-btn bg-red-500 text-white px-3 py-1 rounded-xl ml-auto">Видалити</button>
+		</div>
+	@endif
+	<script>
+		$(document).ready(function () {
+			const
+				$questionCard = $("#question-card-{{ $id }}"),
+				$actionBtn = $questionCard.find(".js-action-btn")
+			;
+			$actionBtn.on("click", function () {
+				popup.show($(this).data("route"),
+					{
+						question_id: {{ $id }}
+					}
+				);
+			});
+		});
+	</script>
 	@if( $authUser->isAdmin() )
 		<div class="flex flex-col gap-2">
 			<textarea class='rounded-lg border-2 border-gray-300 p-1'></textarea>
-			<button data-route="{{ route('action.reply-question') }}" class="js-submit bg-blue-700 text-white px-3 py-1 rounded-xl ml-auto">Відповісти</button>
+			<button data-route="{{ route('action.question.reply') }}" class="js-submit bg-blue-700 text-white px-3 py-1 rounded-xl ml-auto">Відповісти</button>
 		</div>
 		<script>
 			$(document).ready(function () {
 				const
 					$content = $(".js-content"),
 					$questionCard = $("#question-card-{{ $id }}"),
-					$submitBtns = $questionCard.find(".js-submit")
+					$submitBtn = $questionCard.find(".js-submit")
 				;
-				$submitBtns.on("click", function () {
+
+				$submitBtn.on("click", function () {
 					const $currentTextArea = $questionCard.find("textarea");
 					sendRequest(
 						$(this).data("route"),

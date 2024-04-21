@@ -5,6 +5,7 @@ namespace App\Http;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\IsAdmin;
+use App\Http\Middleware\IsNotAdmin;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\TrimStrings;
@@ -82,6 +83,7 @@ class Kernel extends HttpKernel
 		'can'              => Authorize::class,
 		'guest'            => RedirectIfAuthenticated::class,
 		'isAdmin'          => IsAdmin::class,
+		'isNotAdmin'       => IsNotAdmin::class,
 		'password.confirm' => RequirePassword::class,
 		'precognitive'     => HandlePrecognitiveRequests::class,
 		'signed'           => ValidateSignature::class,

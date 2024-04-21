@@ -5,6 +5,7 @@ namespace App\ValuesObject;
 use App\Exceptions\AdditionNotFoundException;
 use App\Exceptions\CoffeeNotFoundException;
 use App\Exceptions\DelicacyNotFoundException;
+use App\Exceptions\QuestionNotFoundException;
 use App\Models\Abstracts\AProduct;
 use App\Models\Addition;
 use App\Models\Coffee;
@@ -131,6 +132,20 @@ class ModelCreator
 		$question->setUserId($userId);
 		$question->setText($text);
 		$question->setAnswer($answer);
+		$question->save();
+		return $question;
+	}
+
+	/***
+	 * @param int    $id
+	 * @param string $text
+	 * @return Question
+	 * @throws QuestionNotFoundException
+	 */
+	public static function updateQuestion(int $id, string $text): Question
+	{
+		$question = questionController()->findById($id);
+		$question->setText($text);
 		$question->save();
 		return $question;
 	}

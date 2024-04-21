@@ -12,13 +12,19 @@ Route::get('/', static function() {
 });
 Route::group(['prefix' => '/action'], static function() {
 	Route::post('/send_feedback', [ActionController::class, 'sendFeedback'])->name('action.send-feedback');
-	Route::post('/send_question', [ActionController::class, 'sendQuestion'])->name('action.send-question');
-	Route::post('/reply_question', [ActionController::class, 'replyQuestion'])->middleware('isAdmin')->name('action.reply-question');
 	Route::post('/create_order', [ActionController::class, 'createOrder'])->name('action.create-order');
 	Route::group(['prefix' => '/product', 'middleware' => ['isAdmin']], static function() {
 		Route::post('/add', [ActionController::class, 'addProduct'])->name('action.product.add');
 		Route::post('/edit', [ActionController::class, 'updateProduct'])->name('action.product.edit');
 		Route::post('/delete', [ActionController::class, 'deleteProduct'])->name('action.product.delete');
+	});
+	Route::group(['prefix' => '/question'], static function() {
+		Route::post('/reply', [ActionController::class, 'replyQuestion'])->middleware('isAdmin')->name('action.question.reply');
+		Route::group(['middleware' => ['isNotAdmin']], static function() {
+			Route::post('/send', [ActionController::class, 'sendQuestion'])->name('action.question.send');
+			Route::post('/edit', [ActionController::class, 'editQuestion'])->name('action.question.edit');
+			Route::post('/delete', [ActionController::class, 'deleteQuestion'])->name('action.question.delete');
+		});
 	});
 });
 Route::group(['prefix' => '/content'], static function() {
@@ -41,6 +47,10 @@ Route::group(['prefix' => '/popup'], static function() {
 		Route::post('/add', [PopupController::class, 'getCreateProductPopup'])->name('popup.product.add');
 		Route::post('/edit', [PopupController::class, 'getEditProductPopup'])->name('popup.product.edit');
 		Route::post('/delete', [PopupController::class, 'getDeleteProductPopup'])->name('popup.product.delete');
+	});
+	Route::group(['prefix' => '/question', 'middleware' => ['isNotAdmin']], static function() {
+		Route::post('/edit', [PopupController::class, 'getEditQuestionPopup'])->name('popup.question.edit');
+		Route::post('/delete', [PopupController::class, 'getDeleteQuestionPopup'])->name('popup.question.delete');
 	});
 });
 require __DIR__ . '/auth.php';

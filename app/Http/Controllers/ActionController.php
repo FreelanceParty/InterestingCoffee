@@ -207,4 +207,42 @@ class ActionController extends Controller
 			'ack' => 'success',
 		]);
 	}
+
+	/**
+	 * @param Request $request
+	 * @return JsonResponse
+	 * @throws QuestionNotFoundException
+	 */
+	public function editQuestion(Request $request): JsonResponse
+	{
+		$validator = Validator::make($request->all(), [
+			'id'     => 'required',
+			'text'   => 'required',
+		]);
+		if ($validator->fails()) {
+			return response()->json(['ack' => "fail"]);
+		}
+		$questionId   = $request->get('id');
+		$questionText = $request->get('text');
+		$question     = ModelCreator::updateQuestion($questionId, $questionText);
+		$question->save();
+		return response()->json([
+			'ack' => 'success',
+		]);
+	}
+
+	/**
+	 * @param Request $request
+	 * @return JsonResponse
+	 * @throws QuestionNotFoundException
+	 */
+	public function deleteQuestion(Request $request): JsonResponse
+	{
+		$question_id = $request->get('question_id');
+		$question    = questionController()->findById($question_id);
+		$question->delete();
+		return response()->json([
+			'ack' => 'success',
+		]);
+	}
 }

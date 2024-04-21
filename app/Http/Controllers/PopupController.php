@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Exceptions\CoffeeNotFoundException;
 use App\Exceptions\DelicacyNotFoundException;
 use App\Exceptions\AdditionNotFoundException;
+use App\Exceptions\QuestionNotFoundException;
 use App\Models\Abstracts\AProduct;
+use App\Models\Question;
 use App\ValuesObject\Constants\InfoType;
 use App\ValuesObject\Constants\ProductType;
 use Illuminate\Http\JsonResponse;
@@ -142,6 +144,42 @@ class PopupController extends Controller
 		return response()->json([
 			'headerText' => "Замовлення столика",
 			'html'       => view('popup.create_order')->render(),
+		]);
+	}
+
+	/**
+	 * @param Request $request
+	 * @return JsonResponse
+	 * @throws Throwable
+	 * @throws QuestionNotFoundException
+	 */
+	public function getEditQuestionPopup(Request $request): JsonResponse
+	{
+		$question_id = $request->get('question_id');
+		$question    = questionController()->findById($question_id);
+		return response()->json([
+			'headerText' => "Змінити питання",
+			'html'       => view('popup.question.edit', [
+				'question' => $question,
+			])->render(),
+		]);
+	}
+
+	/**
+	 * @param Request $request
+	 * @return JsonResponse
+	 * @throws QuestionNotFoundException
+	 * @throws Throwable
+	 */
+	public function getDeleteQuestionPopup(Request $request): JsonResponse
+	{
+		$question_id = $request->get('question_id');
+		$question    = questionController()->findById($question_id);
+		return response()->json([
+			'headerText' => "Видалити питання",
+			'html'       => view('popup.question.delete', [
+				'question' => $question,
+			])->render(),
 		]);
 	}
 }

@@ -1,7 +1,7 @@
 @php
 	use Illuminate\Support\Facades\Auth;
 @endphp
-<div id="js-navbar" class="fixed flex flex-col w-28 h-screen bg-yellow-300 p-4 gap-5 justify-between text-center">
+<div id="js-navbar" class="fixed flex flex-col w-28 h-[calc(100%-64px)] bg-yellow-300 p-4 gap-5 justify-between text-center mt-16">
 	<div class="flex flex-col gap-8 pt-2">
 		<div data-route="{{ route('content.home') }}" class="js-tab cursor-pointer items-center flex flex-col gap-2">
 			<i class="fa-sharp fa-solid fa-house fa-xl"></i>
@@ -52,7 +52,7 @@
 				Реєстрація
 			</div>
 		@else
-			@if($authUser->isAdmin())
+			@if( $authUser->isAdmin() )
 				<div data-route="{{ route('content.orders') }}" class="js-tab cursor-pointer items-center flex flex-col gap-2">
 					<i class="fa-solid fa-chair fa-xl"></i>
 					Замовлення

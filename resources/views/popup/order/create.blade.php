@@ -146,14 +146,14 @@
 			const $coffeeBadges = $popupContent.find(".js-coffee-badge");
 			const $delicacyBadges = $popupContent.find(".js-delicacy-badge");
 
-			if($coffeeBadges.length > 0 && $coffeeOrderContainer.hasClass("hidden")) {
+			if ($coffeeBadges.length > 0 && $coffeeOrderContainer.hasClass("hidden")) {
 				$coffeeOrderContainer.removeClass("hidden");
-			} else if($coffeeBadges.length === 0 && !$coffeeOrderContainer.hasClass("hidden")) {
+			} else if ($coffeeBadges.length === 0 && ! $coffeeOrderContainer.hasClass("hidden")) {
 				$coffeeOrderContainer.addClass("hidden");
 			}
-			if($delicacyBadges.length > 0 && $delicacyOrderContainer.hasClass("hidden")) {
+			if ($delicacyBadges.length > 0 && $delicacyOrderContainer.hasClass("hidden")) {
 				$delicacyOrderContainer.removeClass("hidden");
-			} else if($delicacyBadges.length === 0 && !$delicacyOrderContainer.hasClass("hidden")) {
+			} else if ($delicacyBadges.length === 0 && ! $delicacyOrderContainer.hasClass("hidden")) {
 				$delicacyOrderContainer.addClass("hidden");
 			}
 		}
@@ -197,14 +197,14 @@
 					addedAdditionsIds.push($(this).data("addition-id"));
 				}
 				if ($(this).data("coffee-id")) {
-				addedCoffeesIds.push($(this).data("coffee-id"));
+					addedCoffeesIds.push($(this).data("coffee-id"));
 				}
 				if ($(this).data("delicacy-id")) {
-				addedDelicaciesIds.push($(this).data("delicacy-id"));
+					addedDelicaciesIds.push($(this).data("delicacy-id"));
 				}
 			});
 			sendRequest(
-				'{{ route('action.create-order') }}',
+				'{{ route('action.order.create') }}',
 				{
 					user_name:      $userNameInput.val(),
 					phone_number:   $phoneNumberInput.val(),

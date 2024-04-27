@@ -5,9 +5,7 @@
 	<div class="w-full flex flex-wrap justify-center gap-4">
 		@foreach( $feedbacks as $feedback )
 			@include('content.feedbacks._elements.card', [
-				'user_name' => $feedback->getUserName(),
-				'text' => $feedback->getText(),
-				'created_at' => $feedback->getCreatedAt()->format('d.m.Y'),
+				'feedback' => $feedback
 			])
 		@endforeach
 	</div>

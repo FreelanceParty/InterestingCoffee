@@ -33,6 +33,12 @@ class OrderController
 	}
 
 	/*** @return Collection */
+	public function getActual(): Collection
+	{
+		return $this->repo->getActual();
+	}
+
+	/*** @return Collection */
 	public function getAll(): Collection
 	{
 		return $this->repo->getAll();

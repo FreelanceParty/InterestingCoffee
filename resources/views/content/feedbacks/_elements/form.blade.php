@@ -12,7 +12,7 @@
 		@if( $authUser === NULL )
 			<input type="text" placeholder="Ваше ім'я" class="js-user-name-input rounded-lg border-2 border-gray-300 p-1">
 		@endif
-		<button data-route="{{ route('action.send-feedback') }}" class="bg-blue-700 text-white px-3 py-1 rounded-xl ml-auto">Надіслати</button>
+		<button data-route="{{ route('action.feedback.send') }}" class="bg-blue-700 text-white px-3 py-1 rounded-xl ml-auto">Надіслати</button>
 	</div>
 </div>
 <script>
@@ -27,8 +27,8 @@
 			sendRequest(
 				$(this).data("route"),
 				{
-					user_name: @if( $authUser === NULL ) $userNameInput.val() @else '{{ $authUser->getEmail() }}' @endif,
-					text:      $textInput.val()
+					@if( $authUser === NULL ) user_name: $userNameInput.val(), @endif
+					text:                                $textInput.val()
 				},
 				() => {
 					popup.showInfo("Відгук надіслано!", '{{ InfoType::SUCCESS }}');

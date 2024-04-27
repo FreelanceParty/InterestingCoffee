@@ -5,6 +5,7 @@ namespace App\ValuesObject;
 use App\Exceptions\AdditionNotFoundException;
 use App\Exceptions\CoffeeNotFoundException;
 use App\Exceptions\DelicacyNotFoundException;
+use App\Exceptions\FeedbackNotFoundException;
 use App\Exceptions\QuestionNotFoundException;
 use App\Models\Abstracts\AProduct;
 use App\Models\Addition;
@@ -107,15 +108,17 @@ class ModelCreator
 	}
 
 	/**
-	 * @param string $userName
-	 * @param string $text
+	 * @param string   $userName
+	 * @param string   $text
+	 * @param int|NULL $userId
 	 * @return Feedback
 	 */
-	public static function createFeedback(string $userName, string $text): Feedback
+	public static function createFeedback(string $userName, string $text, ?int $userId = NULL): Feedback
 	{
 		$feedback = new Feedback();
 		$feedback->setUserName($userName);
 		$feedback->setText($text);
+		$feedback->setUserId($userId);
 		$feedback->save();
 		return $feedback;
 	}
@@ -148,6 +151,20 @@ class ModelCreator
 		$question->setText($text);
 		$question->save();
 		return $question;
+	}
+
+	/***
+	 * @param int    $id
+	 * @param string $text
+	 * @return Feedback
+	 * @throws FeedbackNotFoundException
+	 */
+	public static function updateFeedback(int $id, string $text): Feedback
+	{
+		$feedback = feedbackController()->findById($id);
+		$feedback->setText($text);
+		$feedback->save();
+		return $feedback;
 	}
 
 	/**

@@ -136,6 +136,61 @@ class PopupController extends Controller
 	}
 
 	/**
+	 * @param Request $request
+	 * @return JsonResponse
+	 * @throws Throwable
+	 * @throws CoffeeNotFoundException
+	 * @throws DelicacyNotFoundException
+	 * @throws AdditionNotFoundException
+	 */
+	public function getDeleteOrderPopup(Request $request): JsonResponse
+	{
+		return response()->json([
+			'headerText' => "Видалення замовлення",
+			'html'       => view('popup.order.delete', [
+				'id' => $request->get('order_id'),
+			])->render(),
+		]);
+	}
+
+	/**
+	 * @param Request $request
+	 * @return JsonResponse
+	 * @throws Throwable
+	 * @throws CoffeeNotFoundException
+	 * @throws DelicacyNotFoundException
+	 * @throws AdditionNotFoundException
+	 */
+	public function getDeleteFeedbackPopup(Request $request): JsonResponse
+	{
+		return response()->json([
+			'headerText' => "Видалення відгуку",
+			'html'       => view('popup.feedback.delete', [
+				'id' => $request->get('feedback_id'),
+			])->render(),
+		]);
+	}
+
+	/**
+	 * @param Request $request
+	 * @return JsonResponse
+	 * @throws Throwable
+	 * @throws CoffeeNotFoundException
+	 * @throws DelicacyNotFoundException
+	 * @throws AdditionNotFoundException
+	 */
+	public function getEditFeedbackPopup(Request $request): JsonResponse
+	{
+		$feedback = feedbackController()->findById($request->get('feedback_id'));
+		return response()->json([
+			'headerText' => "Редагування відгуку",
+			'html'       => view('popup.feedback.edit', [
+				'feedback' => $feedback,
+			])->render(),
+		]);
+	}
+
+	/**
 	 * @return JsonResponse
 	 * @throws Throwable
 	 */
@@ -143,7 +198,7 @@ class PopupController extends Controller
 	{
 		return response()->json([
 			'headerText' => "Замовлення столика",
-			'html'       => view('popup.create_order')->render(),
+			'html'       => view('popup.order.create')->render(),
 		]);
 	}
 

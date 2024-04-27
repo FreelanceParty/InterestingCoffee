@@ -11,8 +11,15 @@ Route::get('/', static function() {
 	]);
 });
 Route::group(['prefix' => '/action'], static function() {
-	Route::post('/send_feedback', [ActionController::class, 'sendFeedback'])->name('action.send-feedback');
-	Route::post('/create_order', [ActionController::class, 'createOrder'])->name('action.create-order');
+	Route::group(['prefix' => '/feedback'], static function() {
+		Route::post('/edit', [ActionController::class, 'editFeedback'])->name('action.feedback.edit');
+		Route::post('/delete', [ActionController::class, 'deleteFeedback'])->middleware('isAdmin')->name('action.feedback.delete');
+		Route::post('/send', [ActionController::class, 'sendFeedback'])->name('action.feedback.send');
+	});
+	Route::group(['prefix' => '/order'], static function() {
+		Route::post('/create', [ActionController::class, 'createOrder'])->name('action.order.create');
+		Route::post('/delete', [ActionController::class, 'deleteOrder'])->middleware('isAdmin')->name('action.order.delete');
+	});
 	Route::group(['prefix' => '/product', 'middleware' => ['isAdmin']], static function() {
 		Route::post('/add', [ActionController::class, 'addProduct'])->name('action.product.add');
 		Route::post('/edit', [ActionController::class, 'updateProduct'])->name('action.product.edit');
@@ -28,29 +35,38 @@ Route::group(['prefix' => '/action'], static function() {
 	});
 });
 Route::group(['prefix' => '/content'], static function() {
+	Route::post('/additions', [ContentController::class, 'getAdditionsView'])->name('content.additions');
 	Route::post('/coffees', [ContentController::class, 'getCoffeesView'])->name('content.coffees');
 	Route::post('/delicacies', [ContentController::class, 'getDelicaciesView'])->name('content.delicacies');
-	Route::post('/additions', [ContentController::class, 'getAdditionsView'])->name('content.additions');
+	Route::post('/feedbacks', [ContentController::class, 'getFeedbacksView'])->name('content.feedbacks');
 	Route::post('/home', [ContentController::class, 'getHomeView'])->name('content.home');
 	Route::post('/menu', [ContentController::class, 'getMenuView'])->name('content.menu');
-	Route::post('/feedbacks', [ContentController::class, 'getFeedbacksView'])->name('content.feedbacks');
 	Route::post('/questions', [ContentController::class, 'getQuestionsView'])->name('content.questions');
-	Route::post('/orders', [ContentController::class, 'getOrdersView'])->middleware('isAdmin')->name('content.orders');
-	Route::post('/statistics', [ContentController::class, 'getStatisticsView'])->middleware('isAdmin')->name('content.statistics');
+	Route::group(['middleware' => ['isAdmin']], static function() {
+		Route::post('/orders', [ContentController::class, 'getOrdersView'])->name('content.orders');
+		Route::post('/statistics', [ContentController::class, 'getStatisticsView'])->name('content.statistics');
+	});
 });
 Route::group(['prefix' => '/popup'], static function() {
 	Route::post('/info', [PopupController::class, 'getInfoPopup'])->name('popup.info');
 	Route::post('/login', [PopupController::class, 'getLoginPopup'])->name('popup.login');
 	Route::post('/register', [PopupController::class, 'getRegisterPopup'])->name('popup.register');
-	Route::post('/create_order', [PopupController::class, 'getCreateOrderPopup'])->name('popup.create-order');
+	Route::group(['prefix' => '/order'], static function() {
+		Route::post('/create', [PopupController::class, 'getCreateOrderPopup'])->middleware('auth')->name('popup.order.create');
+		Route::post('/delete', [PopupController::class, 'getDeleteOrderPopup'])->middleware('isAdmin')->name('popup.order.delete');
+	});
+	Route::group(['prefix' => '/feedback'], static function() {
+		Route::post('/delete', [PopupController::class, 'getDeleteFeedbackPopup'])->middleware('isAdmin')->name('popup.feedback.delete');
+		Route::post('/edit', [PopupController::class, 'getEditFeedbackPopup'])->name('popup.feedback.edit');
+	});
 	Route::group(['prefix' => '/product', 'middleware' => ['isAdmin']], static function() {
 		Route::post('/add', [PopupController::class, 'getCreateProductPopup'])->name('popup.product.add');
-		Route::post('/edit', [PopupController::class, 'getEditProductPopup'])->name('popup.product.edit');
 		Route::post('/delete', [PopupController::class, 'getDeleteProductPopup'])->name('popup.product.delete');
+		Route::post('/edit', [PopupController::class, 'getEditProductPopup'])->name('popup.product.edit');
 	});
 	Route::group(['prefix' => '/question', 'middleware' => ['isNotAdmin']], static function() {
-		Route::post('/edit', [PopupController::class, 'getEditQuestionPopup'])->name('popup.question.edit');
 		Route::post('/delete', [PopupController::class, 'getDeleteQuestionPopup'])->name('popup.question.delete');
+		Route::post('/edit', [PopupController::class, 'getEditQuestionPopup'])->name('popup.question.edit');
 	});
 });
 require __DIR__ . '/auth.php';

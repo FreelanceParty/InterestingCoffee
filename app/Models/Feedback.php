@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Class Feedback
- * @property string user_name
- * @property string text
+ * @property string   user_name
+ * @property string   text
+ * @property int|NULL user_id
  * @package App\Models
  */
 class Feedback extends AModel
@@ -47,4 +48,20 @@ class Feedback extends AModel
 	{
 		$this->text = $text;
 	}
+
+	/*** @return int|NULL */
+	public function getUserId(): ?int
+	{
+		return $this->user_id;
+	}
+
+	/**
+	 * @param int|NULL $userId
+	 * @return void
+	 */
+	public function setUserId(?int $userId): void
+	{
+		$this->user_id = $userId;
+	}
+
 }

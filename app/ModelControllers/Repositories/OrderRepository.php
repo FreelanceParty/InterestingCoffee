@@ -27,6 +27,12 @@ class OrderRepository
 	}
 
 	/*** @return Collection */
+	public function getActual(): Collection
+	{
+		return Order::where('date_time', '>', now())->get();
+	}
+
+	/*** @return Collection */
 	public function getAll(): Collection
 	{
 		return Order::all();

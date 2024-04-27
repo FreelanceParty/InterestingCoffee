@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\CoffeeNotFoundException;
 use App\Exceptions\DelicacyNotFoundException;
+use App\Exceptions\FeedbackNotFoundException;
+use App\Exceptions\OrderNotFoundException;
 use App\Exceptions\QuestionNotFoundException;
 use App\Exceptions\AdditionNotFoundException;
 use App\Exceptions\StatisticNotFoundException;
 use App\Models\Abstracts\AProduct;
+use App\Models\User;
 use App\ValuesObject\Constants\AdditionType;
 use App\ValuesObject\Constants\ProductType;
 use App\ValuesObject\Constants\StatisticCategories;
@@ -15,6 +18,7 @@ use App\ValuesObject\ModelCreator;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
 use JsonException;
@@ -31,7 +35,15 @@ class ActionController extends Controller
 	 */
 	public function sendFeedback(Request $request): JsonResponse
 	{
-		ModelCreator::createFeedback($request->get('user_name'), $request->get('text'));
+		/*** @var User $authUser */
+		$authUser = Auth::user();
+		if ($authUser === NULL) {
+			$userName = $request->get('user_name');
+		} else {
+			$userName = $authUser->getEmail();
+			$userId   = $authUser->getId();
+		}
+		ModelCreator::createFeedback($userName, $request->get('text'), $userId ?? NULL);
 		return response()->json([
 			'ack' => 'success',
 		]);
@@ -140,6 +152,34 @@ class ActionController extends Controller
 	/**
 	 * @param Request $request
 	 * @return JsonResponse
+	 * @throws OrderNotFoundException
+	 */
+	public function deleteOrder(Request $request): JsonResponse
+	{
+		$order = orderController()->findById($request->get('order_id'));
+		$order->delete();
+		return response()->json([
+			'ack' => 'success',
+		]);
+	}
+
+	/**
+	 * @param Request $request
+	 * @return JsonResponse
+	 * @throws FeedbackNotFoundException
+	 */
+	public function deleteFeedback(Request $request): JsonResponse
+	{
+		$feedback = feedbackController()->findById($request->get('feedback_id'));
+		$feedback->delete();
+		return response()->json([
+			'ack' => 'success',
+		]);
+	}
+
+	/**
+	 * @param Request $request
+	 * @return JsonResponse
 	 * @throws CoffeeNotFoundException
 	 * @throws DelicacyNotFoundException
 	 * @throws AdditionNotFoundException
@@ -216,16 +256,37 @@ class ActionController extends Controller
 	public function editQuestion(Request $request): JsonResponse
 	{
 		$validator = Validator::make($request->all(), [
-			'id'     => 'required',
-			'text'   => 'required',
+			'id'   => 'required',
+			'text' => 'required',
 		]);
 		if ($validator->fails()) {
 			return response()->json(['ack' => "fail"]);
 		}
 		$questionId   = $request->get('id');
 		$questionText = $request->get('text');
-		$question     = ModelCreator::updateQuestion($questionId, $questionText);
-		$question->save();
+		ModelCreator::updateQuestion($questionId, $questionText);
+		return response()->json([
+			'ack' => 'success',
+		]);
+	}
+
+	/**
+	 * @param Request $request
+	 * @return JsonResponse
+	 * @throws FeedbackNotFoundException
+	 */
+	public function editFeedback(Request $request): JsonResponse
+	{
+		$validator = Validator::make($request->all(), [
+			'id'   => 'required',
+			'text' => 'required',
+		]);
+		if ($validator->fails()) {
+			return response()->json(['ack' => "fail"]);
+		}
+		$feedbackId   = $request->get('id');
+		$feedbackText = $request->get('text');
+		ModelCreator::updateFeedback($feedbackId, $feedbackText);
 		return response()->json([
 			'ack' => 'success',
 		]);

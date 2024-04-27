@@ -26,7 +26,7 @@ class CustomSeeder
 	/*** @return void */
 	public static function seedDelicacies(): void
 	{
-		ModelCreator::createProduct(ProductType::DELICACY, 'Печенюха', 1, 'Масляне печиво з смачними шоколадними крихтами');
+		ModelCreator::createProduct(ProductType::DELICACY, 'Печиво', 1, 'Масляне печиво з смачними шоколадними крихтами');
 		ModelCreator::createProduct(ProductType::DELICACY, 'Napoleon', 3.99, 'Найпопулярніший торт в світі, але смачніше');
 		ModelCreator::createProduct(ProductType::DELICACY, 'Мармелад', 1, 'Вишневий, яблучний та будь-який інший)');
 		ModelCreator::createProduct(ProductType::DELICACY, 'Круасан', 1, 'Французька кухня у нас в меню з найтоншим тістом');

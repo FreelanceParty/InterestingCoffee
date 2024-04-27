@@ -21,7 +21,7 @@ class ContentController extends Controller
 	{
 		return response()->json([
 			'view' => view('content.product.coffees', [
-				'coffees' => coffeeController()->getAll(),
+				'coffees' => coffeeController()->getAll()->take(30),
 			])->render(),
 		]);
 	}
@@ -34,7 +34,7 @@ class ContentController extends Controller
 	{
 		return response()->json([
 			'view' => view('content.product.delicacies', [
-				'delicacies' => delicacyController()->getAll(),
+				'delicacies' => delicacyController()->getAll()->take(30),
 			])->render(),
 		]);
 	}
@@ -47,7 +47,7 @@ class ContentController extends Controller
 	{
 		return response()->json([
 			'view' => view('content.product.additions', [
-				'additions' => additionController()->getAll(),
+				'additions' => additionController()->getAll()->take(30),
 			])->render(),
 		]);
 	}
@@ -58,8 +58,11 @@ class ContentController extends Controller
 	 */
 	public function getHomeView(): JsonResponse
 	{
+		/*** @var User $authUser */
+		$authUser = Auth::user();
 		return response()->json([
 			'view' => view('content.home._common', [
+				'authUser'  => $authUser,
 				'feedbacks' => feedbackController()->getAll()->take(4),
 			])->render(),
 		]);
@@ -97,9 +100,12 @@ class ContentController extends Controller
 	 */
 	public function getFeedbacksView(): JsonResponse
 	{
+		/*** @var User $authUser */
+		$authUser = Auth::user();
 		return response()->json([
 			'view' => view('content.feedbacks._common', [
-				'feedbacks' => feedbackController()->getAll(),
+				'authUser'  => $authUser,
+				'feedbacks' => feedbackController()->getAll()->take(30),
 			])->render(),
 		]);
 	}
@@ -131,9 +137,12 @@ class ContentController extends Controller
 	 */
 	public function getOrdersView(): JsonResponse
 	{
+		/*** @var User $authUser */
+		$authUser = Auth::user();
 		return response()->json([
 			'view' => view('content.orders._common', [
-				'orders' => orderController()->getAll(),
+				'authUser' => $authUser,
+				'orders'   => orderController()->getActual(),
 			])->render(),
 		]);
 	}

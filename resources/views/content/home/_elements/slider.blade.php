@@ -1,5 +1,5 @@
 <style>
-	.fa:hover {
+	.fa-chevron-circle-left:hover, .fa-chevron-circle-right:hover {
 		transform:  rotate(360deg);
 		transition: 1s;
 		color:      darkgray;

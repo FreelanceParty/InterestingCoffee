@@ -17,7 +17,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property Question[]|Collection $questions
  * @property Carbon                $created_at
  * @property Carbon                $updated_at
- * @method static where($column, $operator, $value)
+ * @method static where(string $column, string $operator, string $value)
  * @package App\Models
  */
 class User extends Authenticatable
